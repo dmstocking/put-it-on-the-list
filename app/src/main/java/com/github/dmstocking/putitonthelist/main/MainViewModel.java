@@ -9,9 +9,9 @@ import java.util.List;
 @AutoValue
 public abstract class MainViewModel {
 
-    public static MainViewModel create(@NonNull List<GroceryListViewModel> groceryLists) {
+    public static MainViewModel create(@NonNull List<ListViewModel> groceryLists) {
         return new AutoValue_MainViewModel(groceryLists);
     }
 
-    @NonNull public abstract List<GroceryListViewModel> groceryLists();
+    @NonNull public abstract List<ListViewModel> groceryLists();
 }

@@ -1,6 +1,5 @@
-package com.github.dmstocking.putitonthelist.main;
+package com.github.dmstocking.putitonthelist.grocery_list;
 
-import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,15 +13,17 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
+import io.reactivex.annotations.NonNull;
 
-    @NonNull private final MainViewHolderFactory mainViewHolderFactory;
+public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListViewHolder> {
+
+    @NonNull private final GroceryListViewHolderFactory groceryListViewHolderFactory;
 
     @NonNull private List<ListViewModel> model = new ArrayList<>();
 
     @Inject
-    public MainAdapter(@NonNull MainViewHolderFactory mainViewHolderFactory) {
-        this.mainViewHolderFactory = mainViewHolderFactory;
+    public GroceryListAdapter(GroceryListViewHolderFactory groceryListViewHolderFactory) {
+        this.groceryListViewHolderFactory = groceryListViewHolderFactory;
     }
 
     public void updateModel(List<ListViewModel> newModel) {
@@ -46,23 +47,21 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
             @Override
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                return oldModel.get(oldItemPosition) == newModel.get(newItemPosition);
+                return oldModel.get(oldItemPosition).equals(newModel.get(newItemPosition));
             }
         }).dispatchUpdatesTo(this);
     }
 
     @Override
-    public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.main_list_item, parent, false);
-        return mainViewHolderFactory.create(view);
+    public GroceryListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        View root = layoutInflater.inflate(R.layout.grocery_list_list_item, parent, false);
+        return groceryListViewHolderFactory.create(root);
     }
 
     @Override
-    public void onBindViewHolder(MainViewHolder holder, int position) {
-        ListViewModel item = model.get(position);
-        holder.name.setText(item.name());
-        holder.items.setText(item.acquiredItems() + "/" + item.totalItems());
+    public void onBindViewHolder(GroceryListViewHolder holder, int position) {
+        holder.bind(this.model.get(position));
     }
 
     @Override

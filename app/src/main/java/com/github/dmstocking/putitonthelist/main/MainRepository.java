@@ -25,8 +25,8 @@ public class MainRepository {
     @NonNull
     private MainViewModel buildModel() {
         return MainViewModel.create(
-                new ArrayList<GroceryListViewModel>() {{
-                    add(GroceryListViewModel.create(1, "Kroger", 013, 37));
+                new ArrayList<ListViewModel>() {{
+                    add(ListViewModel.create(1, "Kroger", 013, 37));
                 }}
         );
     }
