@@ -29,6 +29,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void attachView(MainContract.View view) {
+        subscribe.dispose();
         subscribe = mainRepository.getModel()
                 .subscribe(view::render,
                            throwable -> log.e(TAG, "Problem while rendering.", throwable));

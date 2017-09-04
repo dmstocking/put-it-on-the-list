@@ -57,6 +57,7 @@ public class MainController extends Controller implements MainContract.View, OnG
     @Override
     protected void onDetach(@NonNull View view) {
         super.onDetach(view);
+        presenter.detachView(this);
         unbinder.unbind();
     }
 
