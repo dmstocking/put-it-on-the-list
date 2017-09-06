@@ -10,11 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
-import com.bluelinelabs.conductor.RouterTransaction;
-import com.bluelinelabs.conductor.changehandler.AutoTransitionChangeHandler;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
-import com.github.dmstocking.putitonthelist.grocery_list.GroceryListController;
+import com.github.dmstocking.putitonthelist.grocery_list.GroceryListActivity;
 
 import javax.inject.Inject;
 
@@ -72,9 +70,6 @@ public class MainController extends Controller implements MainContract.View, OnG
 
     @Override
     public void onGroceryListClicked(com.github.dmstocking.putitonthelist.main.ListViewModel model) {
-        RouterTransaction transaction = RouterTransaction.with(new GroceryListController())
-                .pushChangeHandler(new AutoTransitionChangeHandler())
-                .popChangeHandler(new AutoTransitionChangeHandler());
-        getRouter().pushController(transaction);
+        startActivity(GroceryListActivity.create(getActivity()));
     }
 }
