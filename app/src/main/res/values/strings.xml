@@ -5,4 +5,5 @@
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="main.add_list.title">Create Grocery List</string>
+    <string name="grocery_list.menu.sort">Sort Grocery List</string>
 </resources>

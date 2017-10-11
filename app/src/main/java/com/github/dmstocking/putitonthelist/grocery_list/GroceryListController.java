@@ -4,12 +4,17 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
+import com.bluelinelabs.conductor.RouterTransaction;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
+import com.github.dmstocking.putitonthelist.grocery_list.sort.SortController;
 
 import javax.inject.Inject;
 
@@ -29,6 +34,8 @@ public class GroceryListController extends Controller implements GroceryListCont
         ((CoreApplication) getApplicationContext()).coreComponent()
                 .groceryListComponent(new GroceryListModule(this))
                 .inject(this);
+
+        setHasOptionsMenu(true);
 
         View root = inflater.inflate(R.layout.grocery_list_controller, container, false);
         ButterKnife.bind(this, root);
@@ -56,5 +63,20 @@ public class GroceryListController extends Controller implements GroceryListCont
 
     @Override
     public void onGroceryListItemClicked(ListViewModel item) {
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.grocery_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sort:
+                getRouter().pushController(RouterTransaction.with(new SortController()));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

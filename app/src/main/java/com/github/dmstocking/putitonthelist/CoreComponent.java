@@ -2,6 +2,8 @@ package com.github.dmstocking.putitonthelist;
 
 import com.github.dmstocking.putitonthelist.grocery_list.GroceryListComponent;
 import com.github.dmstocking.putitonthelist.grocery_list.GroceryListModule;
+import com.github.dmstocking.putitonthelist.grocery_list.sort.SortComponent;
+import com.github.dmstocking.putitonthelist.grocery_list.sort.SortModule;
 import com.github.dmstocking.putitonthelist.main.MainActivity;
 import com.github.dmstocking.putitonthelist.main.MainComponent;
 import com.github.dmstocking.putitonthelist.main.MainModule;
@@ -20,6 +22,6 @@ public interface CoreComponent {
     void inject(MainActivity mainActivity);
 
     MainComponent mainComponent(MainModule mainModule);
-
     GroceryListComponent groceryListComponent(GroceryListModule groceryListModule);
+    SortComponent sortComponent(SortModule sortModule);
 }
