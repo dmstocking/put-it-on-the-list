@@ -29,7 +29,7 @@ public class MainController extends Controller implements MainContract.View, OnG
     @BindView(R.id.list) RecyclerView list;
     @BindDrawable(R.color.black12) Drawable divider;
 
-    private Unbinder unbinder;
+    private Unbinder unbinder = Unbinder.EMPTY;
 
     @NonNull
     @Override
@@ -66,6 +66,7 @@ public class MainController extends Controller implements MainContract.View, OnG
         super.onDetach(view);
         presenter.detachView(this);
         unbinder.unbind();
+        unbinder = Unbinder.EMPTY;
     }
 
     @Override

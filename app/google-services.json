@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "837970438291",
+    "firebase_url": "https://put-it-on-the-list.firebaseio.com",
+    "project_id": "put-it-on-the-list",
+    "storage_bucket": "put-it-on-the-list.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837970438291:android:74b1e577fbcd24ca",
+        "android_client_info": {
+          "package_name": "com.github.dmstocking.putitonthelist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837970438291-i80jajpdf4ffdu8fsbqd82u5r6ihr09o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA31eNX2Nse3V6L_OyHTLBt5u8Ewus0MNI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,5 +1,7 @@
 package com.github.dmstocking.putitonthelist.main;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.fab) FloatingActionButton fab;
 
     @Inject MainRepository mainRepository;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
