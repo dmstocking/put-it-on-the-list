@@ -15,22 +15,22 @@ public class MainPresenter implements MainContract.Presenter {
 
     private static final String TAG = "MainPresenter";
 
-    @NonNull private final MainRepository mainRepository;
+    @NonNull private final MainService mainService;
     @NonNull private final Log log;
 
     @NonNull private Disposable subscribe = Disposables.disposed();
 
     @Inject
-    public MainPresenter(@NonNull MainRepository mainRepository,
+    public MainPresenter(@NonNull MainService mainService,
                          @NonNull Log log) {
-        this.mainRepository = mainRepository;
+        this.mainService = mainService;
         this.log = log;
     }
 
     @Override
     public void attachView(MainContract.View view) {
         subscribe.dispose();
-        subscribe = mainRepository.getModel()
+        subscribe = mainService.model()
                 .subscribe(view::render,
                            throwable -> log.e(TAG, "Problem while rendering.", throwable));
     }

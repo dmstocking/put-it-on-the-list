@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.controller_container) ViewGroup container;
     @BindView(R.id.fab) FloatingActionButton fab;
 
-    @Inject MainRepository mainRepository;
+    @Inject MainService mainService;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, MainActivity.class);
@@ -69,7 +69,8 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton(
                         R.string.create,
                         (dialogInterface, i) -> {
-                            mainRepository.create(editText.getText().toString());
+                            mainService.create(editText.getText().toString())
+                                    .subscribe();
                             dialogInterface.dismiss();
                         })
                 .setView(root)
