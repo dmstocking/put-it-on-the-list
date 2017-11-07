@@ -23,6 +23,7 @@ public class CoreApplication extends Application {
     public CoreComponent coreComponent() {
         if (coreComponent == null) {
             coreComponent = DaggerCoreComponent.builder()
+                    .androidModule(new AndroidModule(this))
                     .utilModule(new UtilModule(FirebaseAnalytics.getInstance(this),
                                                FirebaseAuth.getInstance(),
                                                FirebaseFirestore.getInstance()))

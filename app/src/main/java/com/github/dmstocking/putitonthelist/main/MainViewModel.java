@@ -9,9 +9,13 @@ import java.util.List;
 @AutoValue
 public abstract class MainViewModel {
 
-    public static MainViewModel create(@NonNull List<ListViewModel> groceryLists) {
-        return new AutoValue_MainViewModel(groceryLists);
+    public static MainViewModel create(@NonNull String actionTitle,
+                                       @NonNull List<ListViewModel> groceryLists,
+                                       boolean isSelecting) {
+        return new AutoValue_MainViewModel(actionTitle, groceryLists, isSelecting);
     }
 
+    @NonNull public abstract String actionTitle();
     @NonNull public abstract List<ListViewModel> groceryLists();
+    public abstract boolean isSelecting();
 }

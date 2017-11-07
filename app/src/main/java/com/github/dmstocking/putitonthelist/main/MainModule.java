@@ -22,4 +22,9 @@ public class MainModule {
     public OnGroceryListClicked providesOnGroceryListClicked() {
         return mainController;
     }
+
+    @Provides
+    public OnGroceryListLongClicked providesOnGroceryListLongClicked() {
+        return mainController;
+    }
 }

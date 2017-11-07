@@ -12,7 +12,6 @@ import com.google.auto.factory.Provided;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 @AutoFactory
 public class MainViewHolder extends RecyclerView.ViewHolder {
@@ -23,17 +22,24 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
 
     @Nullable private ListViewModel model;
 
-    public MainViewHolder(@Provided OnGroceryListClicked onGroceryListClicked, View itemView) {
+    public MainViewHolder(@Provided OnGroceryListClicked onGroceryListClicked,
+                          @Provided OnGroceryListLongClicked onGroceryListLongClicked,
+                          View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         background.setOnClickListener(view -> {
             onGroceryListClicked.onGroceryListClicked(model);
         });
+        background.setOnLongClickListener(view -> {
+            onGroceryListLongClicked.onGroceryListLongClicked(model);
+            return true;
+        });
     }
 
     public void bind(@NonNull ListViewModel model) {
         this.model = model;
-        name.setText(model.name());
-        items.setText(model.acquiredItems() + "/" + model.totalItems());
+        background.setSelected(model.selected());
+        name.setText(model.headline());
+        items.setText(model.trailingCaption());
     }
 }

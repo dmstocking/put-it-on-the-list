@@ -2,10 +2,15 @@ package com.github.dmstocking.putitonthelist.main;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,7 +26,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class MainController extends Controller implements MainContract.View, OnGroceryListClicked {
+public class MainController
+        extends Controller
+        implements MainContract.View, OnGroceryListClicked, OnGroceryListLongClicked {
 
     @Inject MainContract.Presenter presenter;
     @Inject MainAdapter adapter;
@@ -30,6 +37,38 @@ public class MainController extends Controller implements MainContract.View, OnG
     @BindDrawable(R.color.black12) Drawable divider;
 
     private Unbinder unbinder = Unbinder.EMPTY;
+    private ActionMode actionMode;
+    private ActionMode.Callback actionModelCallback = new ActionMode.Callback() {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            MenuInflater inflater = mode.getMenuInflater();
+            inflater.inflate(R.menu.main_action_menu, menu);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    presenter.onDelete();
+                    mode.finish();
+                    return true;
+                default:
+                    return false;
+            }
+        }
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+            actionMode = null;
+            presenter.onCancelSelection();
+        }
+    };
 
     @NonNull
     @Override
@@ -58,7 +97,35 @@ public class MainController extends Controller implements MainContract.View, OnG
 
     @Override
     public void render(MainViewModel viewModel) {
+        if (viewModel.isSelecting() && actionMode == null) {
+            AppCompatActivity activity = (AppCompatActivity) getActivity();
+            if (activity != null) {
+                actionMode = activity.startSupportActionMode(actionModelCallback);
+            }
+        } else if (!viewModel.isSelecting() && actionMode != null) {
+            actionMode.finish();
+        }
+
+        if (actionMode != null) {
+            actionMode.setTitle(viewModel.actionTitle());
+        }
+
         adapter.updateModel(viewModel.groceryLists());
+    }
+
+    @Override
+    public void onGroceryListClicked(ListViewModel model) {
+        presenter.onClick(model);
+    }
+
+    @Override
+    public void onGroceryListLongClicked(ListViewModel model) {
+        presenter.onLongClick(model);
+    }
+
+    @Override
+    public void launchGroceryList(GroceryListId id) {
+        startActivity(GroceryListActivity.create(getActivity()));
     }
 
     @Override
@@ -67,10 +134,5 @@ public class MainController extends Controller implements MainContract.View, OnG
         presenter.detachView(this);
         unbinder.unbind();
         unbinder = Unbinder.EMPTY;
-    }
-
-    @Override
-    public void onGroceryListClicked(com.github.dmstocking.putitonthelist.main.ListViewModel model) {
-        startActivity(GroceryListActivity.create(getActivity()));
     }
 }

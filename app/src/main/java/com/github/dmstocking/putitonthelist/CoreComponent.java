@@ -15,6 +15,7 @@ import dagger.Component;
 
 @Singleton
 @Component(modules = {
+        AndroidModule.class,
         UtilModule.class,
 })
 public interface CoreComponent {

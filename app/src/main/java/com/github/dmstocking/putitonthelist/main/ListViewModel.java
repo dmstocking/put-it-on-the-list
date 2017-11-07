@@ -8,15 +8,15 @@ import com.google.auto.value.AutoValue;
 public abstract class ListViewModel {
 
     public static ListViewModel create(
-            int id,
-            @NonNull String name,
-            int acquiredItems,
-            int totalItems) {
-        return new AutoValue_ListViewModel(id, name, acquiredItems, totalItems);
+            GroceryListId id,
+            @NonNull String headline,
+            @NonNull String trailingCaption,
+            boolean selected) {
+        return new AutoValue_ListViewModel(id, headline, trailingCaption, selected);
     }
 
-    public abstract int id();
-    @NonNull public abstract String name();
-    public abstract int acquiredItems();
-    public abstract int totalItems();
+    public abstract GroceryListId id();
+    @NonNull public abstract String headline();
+    @NonNull public abstract String trailingCaption();
+    public abstract boolean selected();
 }

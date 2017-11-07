@@ -59,6 +59,9 @@ public class MainRepository {
                     emitter.onError(e);
                 } else if (snapshot != null) {
                     List<GroceryListDocument> items = snapshot.toObjects(GroceryListDocument.class);
+                    for (int i=0; i < items.size(); i++) {
+                        items.get(i).setId(snapshot.getDocuments().get(i).getId());
+                    }
                     Collections.sort(items, (o1, o2) -> o1.getName().compareTo(o2.getName()));
                     emitter.onNext(items);
                 } else {
@@ -69,5 +72,18 @@ public class MainRepository {
 
             emitter.setCancellable(registration::remove);
         }, BackpressureStrategy.LATEST);
+    }
+
+    public Completable delete(String id) {
+        return Completable.create(emitter -> {
+            listRef.document(id)
+                    .delete()
+                    .addOnSuccessListener(documentReference -> {
+                        emitter.onComplete();
+                    }).addOnFailureListener(e -> {
+                        log.e(TAG, "Error while adding Grocery list.", e);
+                        emitter.onError(e);
+                    });
+        });
     }
 }

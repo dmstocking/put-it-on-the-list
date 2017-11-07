@@ -41,7 +41,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
             @Override
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return oldModel.get(oldItemPosition).id() == newModel.get(newItemPosition).id();
+                return oldModel.get(oldItemPosition).id().equals(newModel.get(newItemPosition).id());
             }
 
             @Override
@@ -61,8 +61,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     @Override
     public void onBindViewHolder(MainViewHolder holder, int position) {
         ListViewModel item = model.get(position);
-        holder.name.setText(item.name());
-        holder.items.setText(item.acquiredItems() + "/" + item.totalItems());
+        holder.bind(item);
     }
 
     @Override
