@@ -1,6 +1,6 @@
 package com.github.dmstocking.putitonthelist.main;
 
-class GroceryListItem {
+public class GroceryListItem {
 
     private String category;
     private String name;

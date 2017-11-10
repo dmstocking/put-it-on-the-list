@@ -1,6 +1,8 @@
 package com.github.dmstocking.putitonthelist.grocery_list;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -28,6 +30,10 @@ public class GroceryListController extends Controller implements GroceryListCont
     @Inject GroceryListAdapter adapter;
     @Inject GroceryListContract.Presenter presenter;
 
+    public GroceryListController(@Nullable Bundle args) {
+        super(args);
+    }
+
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -47,7 +53,8 @@ public class GroceryListController extends Controller implements GroceryListCont
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
-        presenter.attachView(this);
+        GroceryListArguments args = getArgs().getParcelable("args");
+        presenter.attachView(this, args);
     }
 
     @Override

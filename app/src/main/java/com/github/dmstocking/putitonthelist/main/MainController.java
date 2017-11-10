@@ -125,7 +125,7 @@ public class MainController
 
     @Override
     public void launchGroceryList(GroceryListId id) {
-        startActivity(GroceryListActivity.create(getActivity()));
+        startActivity(GroceryListActivity.create(getActivity(), id));
     }
 
     @Override

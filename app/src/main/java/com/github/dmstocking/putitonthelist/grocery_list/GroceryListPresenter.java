@@ -20,13 +20,14 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
     }
 
     @Override
-    public void attachView(GroceryListContract.View view) {
-        subscribe = groceryListRepository.getModel()
+    public void attachView(@NonNull GroceryListContract.View view,
+                           @NonNull GroceryListArguments groceryListArguments) {
+        subscribe = groceryListRepository.getModel(groceryListArguments.groceryListId())
                 .subscribe(view::render);
     }
 
     @Override
-    public void detachView(GroceryListContract.View view) {
+    public void detachView(@NonNull GroceryListContract.View view) {
         subscribe.dispose();
     }
 }
