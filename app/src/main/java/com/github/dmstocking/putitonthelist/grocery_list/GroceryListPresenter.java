@@ -10,19 +10,19 @@ import io.reactivex.disposables.Disposables;
 @Singleton
 public class GroceryListPresenter implements GroceryListContract.Presenter {
 
-    @NonNull private final GroceryListRepository groceryListRepository;
+    @NonNull private final GroceryListService groceryListService;
 
     @NonNull private Disposable subscribe = Disposables.disposed();
 
     @Inject
-    public GroceryListPresenter(GroceryListRepository groceryListRepository) {
-        this.groceryListRepository = groceryListRepository;
+    public GroceryListPresenter(GroceryListService groceryListService) {
+        this.groceryListService = groceryListService;
     }
 
     @Override
     public void attachView(@NonNull GroceryListContract.View view,
                            @NonNull GroceryListArguments groceryListArguments) {
-        subscribe = groceryListRepository.getModel(groceryListArguments.groceryListId())
+        subscribe = groceryListService.getModel(groceryListArguments.groceryListId())
                 .subscribe(view::render);
     }
 
