@@ -1,6 +1,6 @@
 package com.github.dmstocking.putitonthelist;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 import com.github.dmstocking.putitonthelist.uitl.UtilModule;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -10,7 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 
-public class CoreApplication extends Application {
+public class CoreApplication extends MultiDexApplication {
 
     @Nullable private CoreComponent coreComponent;
 
