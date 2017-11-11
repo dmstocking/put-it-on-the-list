@@ -1,8 +1,8 @@
-package com.github.dmstocking.putitonthelist.main;
+package com.github.dmstocking.putitonthelist.grocery_list;
 
 import com.google.firebase.firestore.Exclude;
 
-public class GroceryListItem {
+public class GroceryListItemDocument {
 
     @Exclude
     private String id;
@@ -11,10 +11,10 @@ public class GroceryListItem {
     private String name;
     private boolean purchased;
 
-    public GroceryListItem() {
+    public GroceryListItemDocument() {
     }
 
-    public GroceryListItem(String category, String name, boolean purchased) {
+    public GroceryListItemDocument(String category, String name, boolean purchased) {
         this.category = category;
         this.name = name;
         this.purchased = purchased;

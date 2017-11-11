@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
-import com.github.dmstocking.putitonthelist.main.GroceryListItem;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -30,11 +29,11 @@ public class GroceryListService {
 
     public Flowable<GroceryListViewModel> getModel(@NonNull GroceryListId id) {
         return repository.getGroceryListDocument(id)
-                .map(document -> {
+                .map(documents -> {
                     List<ListViewModel> list = new ArrayList<>();
-                    for (GroceryListItem item : document.getGroceryListItems()) {
+                    for (GroceryListItemDocument item : documents) {
                         list.add(ListViewModel.create(
-                                item.getName().hashCode(),
+                                item.getId(),
                                 toUri(item.getCategory()),
                                 item.getName(),
                                 item.isPurchased(),

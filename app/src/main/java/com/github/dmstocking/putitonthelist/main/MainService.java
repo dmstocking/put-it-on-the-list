@@ -53,18 +53,13 @@ public class MainService {
                     Set<GroceryListId> marked = pair.second;
                     List<ListViewModel> listItems = new ArrayList<>();
                     for (GroceryListDocument doc : items) {
-                        int purchased = 0;
-                        for (GroceryListItem listItem : doc.getGroceryListItems()) {
-                            if (listItem.isPurchased()) {
-                                purchased++;
-                            }
-                        }
                         GroceryListId id = GroceryListId.create(doc.getId());
+                        String caption = doc.getPurchased() + "/" + doc.getTotal();
                         listItems.add(
                                 ListViewModel.create(
                                         id,
                                         doc.getName(),
-                                        purchased + "/" + doc.getGroceryListItems().size(),
+                                        caption,
                                         marked.contains(id)));
                     }
                     boolean isSelecting = marked.size() > 0;

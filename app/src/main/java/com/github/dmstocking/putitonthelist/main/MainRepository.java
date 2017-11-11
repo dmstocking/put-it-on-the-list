@@ -38,8 +38,10 @@ public class MainRepository {
                     new HashMap<String, Boolean>() {{
                         put(authId, true);
                     }},
+                    Collections.emptyMap(),
                     name,
-                    Collections.emptyList());
+                    0,
+                    0);
             listRef.add(doc)
                     .addOnSuccessListener(documentReference -> {
                         emitter.onComplete();

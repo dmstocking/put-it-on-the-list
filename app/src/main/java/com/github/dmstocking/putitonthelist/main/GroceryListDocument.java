@@ -2,26 +2,32 @@ package com.github.dmstocking.putitonthelist.main;
 
 import com.google.firebase.firestore.Exclude;
 
-import java.util.List;
 import java.util.Map;
 
 public class GroceryListDocument {
 
     @Exclude
     private String id;
+
     private Map<String, Boolean> authIds;
+    private Map<String, Integer> categories;
     private String name;
-    private List<GroceryListItem> groceryListItems;
+    private int purchased;
+    private int total;
 
     public GroceryListDocument() {
     }
 
     public GroceryListDocument(Map<String, Boolean> authIds,
+                               Map<String, Integer> categories,
                                String name,
-                               List<GroceryListItem> groceryListItems) {
+                               int purchased,
+                               int total) {
         this.authIds = authIds;
+        this.categories = categories;
         this.name = name;
-        this.groceryListItems = groceryListItems;
+        this.purchased = purchased;
+        this.total = total;
     }
 
     public String getId() {
@@ -36,11 +42,19 @@ public class GroceryListDocument {
         return authIds;
     }
 
+    public Map<String, Integer> getCategories() {
+        return categories;
+    }
+
     public String getName() {
         return name;
     }
 
-    public List<GroceryListItem> getGroceryListItems() {
-        return groceryListItems;
+    public int getPurchased() {
+        return purchased;
+    }
+
+    public int getTotal() {
+        return total;
     }
 }
