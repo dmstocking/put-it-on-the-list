@@ -52,6 +52,5 @@ public class GroceryListViewHolder extends RecyclerView.ViewHolder {
         category.setAlpha(model.purchased() ? 0.54f : 0.87f);
         name.setText(model.name());
         name.setChecked(model.purchased());
-        editName.setText(model.name());
     }
 }

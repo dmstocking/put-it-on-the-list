@@ -1,5 +1,6 @@
-package com.github.dmstocking.putitonthelist.grocery_list;
+package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,24 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import io.reactivex.annotations.NonNull;
 
 @PerController
-public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListViewHolder> {
+public class AddGroceryListItemAdapter extends RecyclerView.Adapter<AddGroceryViewHolder> {
 
-    @NonNull private final GroceryListViewHolderFactory groceryListViewHolderFactory;
+    @NonNull private final AddGroceryViewHolderFactory viewHolderFactory;
 
-    @NonNull private List<ListViewModel> model = new ArrayList<>();
+    @NonNull private List<ListItemViewModel> model = new ArrayList<>();
 
     @Inject
-    public GroceryListAdapter(GroceryListViewHolderFactory groceryListViewHolderFactory) {
-        this.groceryListViewHolderFactory = groceryListViewHolderFactory;
+    public AddGroceryListItemAdapter(@NonNull AddGroceryViewHolderFactory viewHolderFactory) {
+        this.viewHolderFactory = viewHolderFactory;
     }
 
-    public void updateModel(List<ListViewModel> newModel) {
-        List<ListViewModel> oldModel = model;
+    public void update(List<ListItemViewModel> model) {
+        List<ListItemViewModel> newModel = model;
+        List<ListItemViewModel> oldModel = this.model;
         this.model = newModel;
         DiffUtil.calculateDiff(new DiffUtil.Callback() {
             @Override
@@ -56,20 +55,19 @@ public class GroceryListAdapter extends RecyclerView.Adapter<GroceryListViewHold
     }
 
     @Override
-    public GroceryListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View root = layoutInflater.inflate(R.layout.grocery_list_list_item, parent, false);
-        return groceryListViewHolderFactory.create(root);
+    public AddGroceryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.grocery_list__item__add__category_item, parent, false);
+        return viewHolderFactory.create(view);
     }
 
     @Override
-    public void onBindViewHolder(GroceryListViewHolder holder, int position) {
-        holder.bind(this.model.get(position));
+    public void onBindViewHolder(AddGroceryViewHolder holder, int position) {
+        holder.bind(model.get(position));
     }
 
     @Override
     public int getItemCount() {
         return model.size();
     }
-
 }

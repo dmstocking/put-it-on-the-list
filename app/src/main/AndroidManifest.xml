@@ -29,6 +29,11 @@
             android:name=".grocery_list.GroceryListActivity"
             android:parentActivityName=".main.MainActivity"
             />
+        <activity
+            android:name=".grocery_list.items.add.AddGroceryListItemActivity"
+            android:parentActivityName=".grocery_list.GroceryListActivity"
+            android:label="Add Item"
+            />
     </application>
 
 </manifest>

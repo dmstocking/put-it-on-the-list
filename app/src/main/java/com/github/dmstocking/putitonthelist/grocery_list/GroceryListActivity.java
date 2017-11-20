@@ -3,6 +3,7 @@ package com.github.dmstocking.putitonthelist.grocery_list;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
@@ -11,10 +12,12 @@ import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.github.dmstocking.putitonthelist.R;
+import com.github.dmstocking.putitonthelist.grocery_list.items.add.AddGroceryListItemActivity;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 
 public class GroceryListActivity extends AppCompatActivity {
@@ -23,6 +26,7 @@ public class GroceryListActivity extends AppCompatActivity {
 
     @BindView(R.id.controller_container) ViewGroup container;
     @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
 
     public static Intent create(Context context, GroceryListId groceryListId) {
         Intent intent = new Intent(context, GroceryListActivity.class);
@@ -40,6 +44,11 @@ public class GroceryListActivity extends AppCompatActivity {
         if (!router.hasRootController()) {
             router.setRoot(RouterTransaction.with(new GroceryListController(getIntent().getExtras())));
         }
+    }
+
+    @OnClick(R.id.fab)
+    public void onFloatingActionBarClicked() {
+        startActivity(AddGroceryListItemActivity.create(this));
     }
 
     @Override
