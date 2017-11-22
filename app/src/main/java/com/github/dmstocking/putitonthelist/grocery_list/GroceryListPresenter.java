@@ -1,5 +1,7 @@
 package com.github.dmstocking.putitonthelist.grocery_list;
 
+import com.github.dmstocking.putitonthelist.uitl.Log;
+
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -12,14 +14,19 @@ import io.reactivex.disposables.Disposables;
 @Singleton
 public class GroceryListPresenter implements GroceryListContract.Presenter {
 
+    public static final String TAG = "GroceryListPresenter";
+
     @NonNull private final GroceryListService groceryListService;
+    @NonNull private final Log log;
 
     @NonNull private Disposable subscribe = Disposables.disposed();
     @Nullable private GroceryListArguments groceryListArguments;
 
     @Inject
-    public GroceryListPresenter(GroceryListService groceryListService) {
+    public GroceryListPresenter(GroceryListService groceryListService,
+                                Log log) {
         this.groceryListService = groceryListService;
+        this.log = log;
     }
 
     @Override
@@ -27,7 +34,9 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
                            @NonNull GroceryListArguments groceryListArguments) {
         this.groceryListArguments = groceryListArguments;
         subscribe = groceryListService.getModel(this.groceryListArguments.groceryListId())
-                .subscribe(view::render);
+                .subscribe(view::render, throwable -> {
+                    log.e(TAG, "Error while getting model.", throwable);
+                });
     }
 
     @Override

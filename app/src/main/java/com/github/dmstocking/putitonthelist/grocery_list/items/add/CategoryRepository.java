@@ -25,11 +25,12 @@ public class CategoryRepository {
                     private int id = 0;
 
                     private void addCategory(String category, Color color, Icon icon) {
-                        add(new CategoryDocument(String.valueOf(id++), category, color, icon));
+                        id++;
+                        add(new CategoryDocument(String.valueOf(id), category, color, icon, id));
                     }
 
                     {
-                        addCategory("unknown", Color.BLUE, Icon.FREEZER);
+                        addCategory("freezer", Color.BLUE, Icon.FREEZER);
                         addCategory("deli", Color.PINK, Icon.DELI);
                         addCategory("bakery", Color.BROWN, Icon.BAKERY);
                         addCategory("produce", Color.GREEN, Icon.PRODUCE);

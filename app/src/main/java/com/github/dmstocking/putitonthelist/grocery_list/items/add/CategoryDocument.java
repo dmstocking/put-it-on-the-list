@@ -9,6 +9,7 @@ public class CategoryDocument {
     private String category;
     private Color color;
     private Icon icon;
+    private int order;
 
     public CategoryDocument() {
     }
@@ -19,11 +20,14 @@ public class CategoryDocument {
 
     public CategoryDocument(String id,
                             String category,
-                            Color color, Icon icon) {
+                            Color color,
+                            Icon icon,
+                            int order) {
         this.id = id;
         this.category = category;
         this.color = color;
         this.icon = icon;
+        this.order = order;
     }
 
     public String getId() {
@@ -44,5 +48,9 @@ public class CategoryDocument {
 
     public Icon getIcon() {
         return icon;
+    }
+
+    public int getOrder() {
+        return order;
     }
 }
