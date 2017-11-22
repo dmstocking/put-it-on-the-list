@@ -12,6 +12,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 @Singleton
@@ -33,7 +34,7 @@ public class GroceryListService {
                     List<ListViewModel> list = new ArrayList<>();
                     for (GroceryListItemDocument item : documents) {
                         list.add(ListViewModel.create(
-                                item.getId(),
+                                GroceryListItemId.create(item.getId()),
                                 toUri(item.getCategory()),
                                 item.getName(),
                                 item.isPurchased(),
@@ -54,5 +55,19 @@ public class GroceryListService {
             case "bakery": return resources.croissant();
             default: return resources.unknown();
         }
+    }
+
+    public Completable unpurchase(GroceryListId groceryListId,
+                                  GroceryListItemId id) {
+        return setPurchased(groceryListId, id, false);
+    }
+
+    public Completable purchase(GroceryListId groceryListId,
+                                GroceryListItemId id) {
+        return setPurchased(groceryListId, id, true);
+    }
+
+    public Completable setPurchased(GroceryListId listId, GroceryListItemId itemId, boolean purchased) {
+        return repository.update(listId, itemId, purchased);
     }
 }

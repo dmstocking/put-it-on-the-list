@@ -70,6 +70,7 @@ public class GroceryListController extends Controller implements GroceryListCont
 
     @Override
     public void onGroceryListItemClicked(ListViewModel item) {
+        presenter.onGroceryListItemClicked(item);
     }
 
     @Override

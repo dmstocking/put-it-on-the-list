@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 import com.github.dmstocking.putitonthelist.uitl.Log;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
@@ -15,6 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 
 @Singleton
@@ -55,5 +57,19 @@ public class GroceryListRepository {
 
             emitter.setCancellable(listener::remove);
         }, BackpressureStrategy.LATEST);
+    }
+
+    public Completable update(GroceryListId listId,
+                              GroceryListItemId itemId,
+                              boolean purchased) {
+        return Completable.create((emitter) -> {
+            Task<Void> task = fireStore.collection("lists")
+                    .document(listId.id())
+                    .collection("items")
+                    .document(itemId.id())
+                    .update("purchased", purchased)
+                    .addOnSuccessListener(aVoid -> emitter.onComplete())
+                    .addOnFailureListener(emitter::onError);
+        });
     }
 }

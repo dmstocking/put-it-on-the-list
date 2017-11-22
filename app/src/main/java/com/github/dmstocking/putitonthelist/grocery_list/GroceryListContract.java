@@ -5,6 +5,8 @@ public interface GroceryListContract {
     interface Presenter {
         void attachView(View view, GroceryListArguments args);
         void detachView(View view);
+
+        void onGroceryListItemClicked(ListViewModel item);
     }
 
     interface View {
