@@ -81,9 +81,10 @@ public class GroceryListController extends Controller implements GroceryListCont
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        GroceryListArguments args = getArgs().getParcelable("args");
         switch (item.getItemId()) {
             case R.id.sort:
-                getRouter().pushController(RouterTransaction.with(new SortController()));
+                getRouter().pushController(RouterTransaction.with(SortController.create(args.groceryListId())));
         }
         return super.onOptionsItemSelected(item);
     }

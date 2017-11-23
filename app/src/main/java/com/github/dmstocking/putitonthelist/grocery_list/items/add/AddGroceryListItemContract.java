@@ -1,5 +1,7 @@
 package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 
+import com.github.dmstocking.putitonthelist.main.GroceryListId;
+
 import io.reactivex.Observable;
 
 public interface AddGroceryListItemContract {
@@ -9,6 +11,6 @@ public interface AddGroceryListItemContract {
 
     interface Presenter {
 
-        Observable<ViewModel> model(Observable<Object> onDoneClicked);
+        Observable<ViewModel> model(GroceryListId id);
     }
 }

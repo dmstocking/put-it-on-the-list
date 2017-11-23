@@ -53,13 +53,6 @@ public class SortItemTouchCallback extends ItemTouchHelper.Callback {
         SortItemViewModel item = items.remove(prevPosition);
         items.add(newPosition, item);
         sortAdapter.update(items);
-
-        // TODO persist the move
-//        List<Integer> ids = new ArrayList<>();
-//        for (SortItemViewModel model : items) {
-//            ids.add(model.id());
-//        }
-//        sortService.reorder(ids);
         return true;
     }
 

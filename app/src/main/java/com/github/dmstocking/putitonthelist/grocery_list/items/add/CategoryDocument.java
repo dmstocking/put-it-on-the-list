@@ -2,10 +2,13 @@ package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 
 import com.github.dmstocking.putitonthelist.Color;
 import com.github.dmstocking.putitonthelist.Icon;
+import com.google.firebase.firestore.Exclude;
 
 public class CategoryDocument {
 
+    @Exclude
     private String id;
+
     private String category;
     private Color color;
     private Icon icon;

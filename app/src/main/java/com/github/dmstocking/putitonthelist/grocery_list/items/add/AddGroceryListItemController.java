@@ -1,6 +1,8 @@
 package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +41,8 @@ public class AddGroceryListItemController extends Controller implements AddGroce
 
     private Disposable subscribe = Disposables.disposed();
 
-    public AddGroceryListItemController() {
+    public AddGroceryListItemController(@Nullable Bundle bundle) {
+        super(bundle);
     }
 
     @NonNull
@@ -63,7 +66,8 @@ public class AddGroceryListItemController extends Controller implements AddGroce
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
         subscribe.dispose();
-        subscribe = presenter.model(RxView.clicks(done))
+        AddGroceryListItemArgs args = getArgs().getParcelable("args");
+        subscribe = presenter.model(args.id())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(model -> {

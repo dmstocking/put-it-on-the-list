@@ -12,6 +12,7 @@ import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
 import com.github.dmstocking.putitonthelist.R;
+import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -23,8 +24,10 @@ public class AddGroceryListItemActivity extends AppCompatActivity {
 
     private Router router;
 
-    public static Intent create(Context context) {
-        return new Intent(context, AddGroceryListItemActivity.class);
+    public static Intent create(Context context, GroceryListId id) {
+        Intent intent = new Intent(context, AddGroceryListItemActivity.class);
+        intent.putExtra("args", AddGroceryListItemArgs.create(id));
+        return intent;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class AddGroceryListItemActivity extends AppCompatActivity {
 
         router = Conductor.attachRouter(this, container, savedInstanceState);
         if (!router.hasRootController()) {
-            router.pushController(RouterTransaction.with(new AddGroceryListItemController()));
+            router.pushController(RouterTransaction.with(new AddGroceryListItemController(getIntent().getExtras())));
         }
     }
 

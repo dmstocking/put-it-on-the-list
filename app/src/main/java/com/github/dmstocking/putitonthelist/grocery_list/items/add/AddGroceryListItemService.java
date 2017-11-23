@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.github.dmstocking.putitonthelist.Icon;
 import com.github.dmstocking.putitonthelist.IconResources;
+import com.github.dmstocking.putitonthelist.grocery_list.sort.*;
+import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -17,18 +19,18 @@ import io.reactivex.Flowable;
 @Singleton
 public class AddGroceryListItemService {
 
-    @NonNull private final CategoryRepository categoryRepository;
+    @NonNull private final com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository categoryRepository;
     @NonNull private final IconResources iconResources;
 
     @Inject
-    public AddGroceryListItemService(@NonNull CategoryRepository categoryRepository,
+    public AddGroceryListItemService(@NonNull com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository categoryRepository,
                                      @NonNull IconResources iconResources) {
         this.categoryRepository = categoryRepository;
         this.iconResources = iconResources;
     }
 
-    public Flowable<ViewModel> model() {
-        return categoryRepository.getCategories()
+    public Flowable<ViewModel> model(@NonNull GroceryListId id) {
+        return categoryRepository.fetchAllCategories(id)
                 .map(documents -> {
                     List<ListItemViewModel> listViewModels = new ArrayList<>();
                     for (CategoryDocument doc : documents) {

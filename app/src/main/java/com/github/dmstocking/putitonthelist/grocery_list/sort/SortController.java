@@ -1,15 +1,23 @@
 package com.github.dmstocking.putitonthelist.grocery_list.sort;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
+import com.github.dmstocking.putitonthelist.main.GroceryListId;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -30,6 +38,16 @@ public class SortController extends Controller {
 
     @NonNull private Disposable subscription = Disposables.empty();
 
+    public SortController(@Nullable Bundle bundle) {
+        super(bundle);
+    }
+
+    public static SortController create(@NonNull GroceryListId groceryListId) {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("args", SortArguments.create(groceryListId));
+        return new SortController(bundle);
+    }
+
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -48,7 +66,8 @@ public class SortController extends Controller {
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
-        subscription = sortService.fetchModel()
+        SortArguments args = getArgs().getParcelable("args");
+        subscription = sortService.fetchModel(args.groceryListId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(model -> sortAdapter.update(model));
@@ -58,5 +77,11 @@ public class SortController extends Controller {
     protected void onDetach(@NonNull View view) {
         super.onDetach(view);
         subscription.dispose();
+        SortArguments args = getArgs().getParcelable("args");
+        List<CategoryId> ids = new ArrayList<>();
+        for (SortItemViewModel model : sortAdapter.getModel()) {
+            ids.add(model.id());
+        }
+        sortService.reorder(args.groceryListId(), ids);
     }
 }

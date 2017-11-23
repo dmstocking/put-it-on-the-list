@@ -6,7 +6,7 @@ import com.github.dmstocking.optional.java.util.Optional;
 import com.github.dmstocking.optional.java.util.function.Function;
 import com.github.dmstocking.putitonthelist.Icon;
 import com.github.dmstocking.putitonthelist.grocery_list.items.add.CategoryDocument;
-import com.github.dmstocking.putitonthelist.grocery_list.items.add.CategoryRepository;
+import com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 import com.github.dmstocking.putitonthelist.uitl.IconUtils;
 import com.google.auto.value.AutoValue;
@@ -41,7 +41,7 @@ public class GroceryListService {
 
     public Flowable<GroceryListViewModel> getModel(@NonNull GroceryListId id) {
         return Flowable.combineLatest(
-                getCategories(),
+                getCategories(id),
                 groceryListRepository.getGroceryListDocument(id),
                 CategoriesDocumentsPair::create)
                 .map(pair -> {
@@ -80,8 +80,8 @@ public class GroceryListService {
                 });
     }
 
-    private Flowable<Map<String, CategoryDocument>> getCategories() {
-        return categoryRepository.getCategories()
+    private Flowable<Map<String, CategoryDocument>> getCategories(GroceryListId id) {
+        return categoryRepository.fetchAllCategories(id)
                 .map(documents -> {
                     Map<String, CategoryDocument> categories = new HashMap<>();
                     for (CategoryDocument doc : documents) {

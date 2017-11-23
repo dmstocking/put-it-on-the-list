@@ -1,5 +1,6 @@
 package com.github.dmstocking.putitonthelist.main;
 
+import com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -15,6 +16,7 @@ import javax.inject.Singleton;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
+import io.reactivex.Single;
 import io.reactivex.annotations.NonNull;
 
 @Singleton
@@ -23,17 +25,20 @@ public class MainRepository {
     private static final String TAG = "MainRepository";
 
     @NonNull private final CollectionReference listRef;
+    @NonNull private final CategoryRepository categoryRepository;
     @NonNull private final Log log;
 
     @Inject
-    public MainRepository(Log log,
+    public MainRepository(CategoryRepository categoryRepository,
+                          Log log,
                           FirebaseFirestore firestore) {
+        this.categoryRepository = categoryRepository;
         this.log = log;
         this.listRef = firestore.collection("lists");
     }
 
     public Completable create(String authId, String name) {
-        return Completable.create(emitter -> {
+        return Single.<GroceryListId>create(emitter -> {
             GroceryListDocument doc = new GroceryListDocument(
                     new HashMap<String, Boolean>() {{
                         put(authId, true);
@@ -44,12 +49,15 @@ public class MainRepository {
                     0);
             listRef.add(doc)
                     .addOnSuccessListener(documentReference -> {
-                        emitter.onComplete();
+                        emitter.onSuccess(GroceryListId.create(documentReference.getId()));
                     }).addOnFailureListener(e -> {
                         log.e(TAG, "Error while adding Grocery list.", e);
                         emitter.onError(e);
                     });
-        });
+        })
+                .flatMapCompletable(id -> {
+                    return categoryRepository.createDefaultCategories(id);
+                });
     }
 
     public Flowable<List<GroceryListDocument>> getModel(String authId) {

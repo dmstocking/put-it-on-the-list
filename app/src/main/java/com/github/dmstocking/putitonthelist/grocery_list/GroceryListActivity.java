@@ -48,7 +48,8 @@ public class GroceryListActivity extends AppCompatActivity {
 
     @OnClick(R.id.fab)
     public void onFloatingActionBarClicked() {
-        startActivity(AddGroceryListItemActivity.create(this));
+        GroceryListArguments args = getIntent().getParcelableExtra("args");
+        startActivity(AddGroceryListItemActivity.create(this, args.groceryListId()));
     }
 
     @Override

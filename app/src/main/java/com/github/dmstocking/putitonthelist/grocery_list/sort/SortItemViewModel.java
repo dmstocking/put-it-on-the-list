@@ -9,11 +9,11 @@ import java.net.URI;
 @AutoValue
 public abstract class SortItemViewModel {
 
-    public static SortItemViewModel create(int id, @NonNull URI icon, @NonNull String name) {
+    public static SortItemViewModel create(CategoryId id, @NonNull URI icon, @NonNull String name) {
         return new AutoValue_SortItemViewModel(id, icon, name);
     }
 
-    public abstract int id();
+    public abstract CategoryId id();
     @NonNull public abstract URI icon();
     @NonNull public abstract String name();
 }

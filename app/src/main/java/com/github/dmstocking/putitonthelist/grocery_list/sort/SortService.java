@@ -1,56 +1,63 @@
 package com.github.dmstocking.putitonthelist.grocery_list.sort;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import com.github.dmstocking.putitonthelist.grocery_list.items.add.CategoryDocument;
+import com.github.dmstocking.putitonthelist.main.GroceryListId;
+import com.github.dmstocking.putitonthelist.uitl.Log;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import io.reactivex.Flowable;
-import io.reactivex.Observable;
+import io.reactivex.Single;
 
 @Singleton
 public class SortService {
 
+    public static final String TAG = "SortService";
+
     @NonNull private final CategoryRepository categoryRepository;
+    @NonNull private final Log log;
 
     @Inject
-    public SortService(@NonNull CategoryRepository categoryRepository) {
+    public SortService(@NonNull CategoryRepository categoryRepository,
+                       @NonNull Log log) {
         this.categoryRepository = categoryRepository;
+        this.log = log;
     }
 
-    public Observable<List<SortItemViewModel>> fetchModel() {
-        return categoryRepository.onCategoriesChanged()
-                .mergeWith(Flowable.just(Uri.EMPTY))
-                .throttleLast(100, TimeUnit.MILLISECONDS)
-                .toObservable()
-                .flatMap(ignored -> categoryRepository.fetchAllCategories().toObservable())
+    public Single<List<SortItemViewModel>> fetchModel(@NonNull GroceryListId groceryListId) {
+        return categoryRepository.getAllCategories(groceryListId)
                 .map(categories -> {
                     Collections.sort(categories,
-                                     (o1, o2) -> Integer.compare(o1.order(), o2.order()));
+                                     (o1, o2) -> Integer.compare(o1.getOrder(), o2.getOrder()));
                     return categories;
                 })
                 .map(categories -> {
                     List<SortItemViewModel> model = new ArrayList<>();
-                    for (CategoryEntity category : categories) {
+                    for (CategoryDocument category : categories) {
                         model.add(SortItemViewModel.create(
-                                category.id(),
+                                CategoryId.create(category.getId()),
                                 URI.create("nothing://nope.com"),
-                                category.name()));
+                                category.getCategory()));
                     }
                     return model;
                 });
     }
 
-    public void reorder(List<Integer> ids) {
-        categoryRepository.setSortOrder(ids)
-                .blockingAwait();
+    public void reorder(@NonNull GroceryListId groceryListId, @NonNull List<CategoryId> ids) {
+        categoryRepository.setSortOrder(groceryListId, ids)
+                .timeout(10, TimeUnit.SECONDS)
+                .subscribe(() -> {
+                    /* do nothing */
+                }, throwable -> {
+                    log.e(TAG, "Error while updating sort order", throwable);
+                });
     }
 }

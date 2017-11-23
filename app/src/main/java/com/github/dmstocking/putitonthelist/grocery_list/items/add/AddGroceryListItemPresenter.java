@@ -3,6 +3,7 @@ package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 import android.support.annotation.NonNull;
 
 import com.github.dmstocking.putitonthelist.PerController;
+import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import javax.inject.Inject;
 
@@ -19,7 +20,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
     }
 
     @Override
-    public Observable<ViewModel> model(Observable<Object> onDoneClicked) {
-        return service.model().toObservable();
+    public Observable<ViewModel> model(GroceryListId id) {
+        return service.model(id).toObservable();
     }
 }
