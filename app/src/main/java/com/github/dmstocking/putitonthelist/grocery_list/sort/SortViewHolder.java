@@ -22,6 +22,7 @@ public class SortViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.item) View item;
     @BindView(R.id.image) ImageView image;
     @BindView(R.id.category) TextView name;
+    @BindView(R.id.handle) ImageView handle;
 
     public SortViewHolder(View itemView,
                           @Provided @NonNull SortItemTouchHelper sortItemTouchHelper) {
@@ -32,7 +33,7 @@ public class SortViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(SortItemViewModel model) {
         name.setText(model.name());
-        item.setOnTouchListener((view, motionEvent) -> {
+        handle.setOnTouchListener((view, motionEvent) -> {
             if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                 sortItemTouchHelper.startDrag(this);
             }
