@@ -1,7 +1,9 @@
 package com.github.dmstocking.putitonthelist.main;
 
+import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +12,8 @@ import com.github.dmstocking.putitonthelist.R;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 
+import butterknife.BindDimen;
+import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -20,13 +24,18 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.name) TextView name;
     @BindView(R.id.items) TextView items;
 
+    @BindDimen(R.dimen.dp_16) float dp16;
+    @BindDimen(R.dimen.dp_8) float dp8;
+
     @Nullable private ListViewModel model;
+    private final Resources resources;
 
     public MainViewHolder(@Provided OnGroceryListClicked onGroceryListClicked,
                           @Provided OnGroceryListLongClicked onGroceryListLongClicked,
                           View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        resources = itemView.getResources();
         background.setOnClickListener(view -> {
             onGroceryListClicked.onGroceryListClicked(model);
         });
@@ -38,7 +47,15 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull ListViewModel model) {
         this.model = model;
-        background.setSelected(model.selected());
+        if (model.selected()) {
+            background.setBackgroundResource(R.color.colorAccent);
+            name.setTextColor(resources.getColor(R.color.md_white_1000));
+            items.setTextColor(resources.getColor(R.color.md_white_1000));
+        } else {
+            background.setBackgroundResource(R.color.md_white_1000);
+            name.setTextColor(resources.getColor(R.color.black_1000_87));
+            items.setTextColor(resources.getColor(R.color.black_1000_87));
+        }
         name.setText(model.headline());
         items.setText(model.trailingCaption());
     }

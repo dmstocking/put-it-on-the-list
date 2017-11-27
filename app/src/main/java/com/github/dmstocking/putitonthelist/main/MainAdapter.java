@@ -46,7 +46,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
             @Override
             public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
-                return oldModel.get(oldItemPosition) == newModel.get(newItemPosition);
+                return oldModel.get(oldItemPosition).equals(newModel.get(newItemPosition));
             }
         }).dispatchUpdatesTo(this);
     }
