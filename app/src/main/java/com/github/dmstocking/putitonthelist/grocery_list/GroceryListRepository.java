@@ -59,11 +59,24 @@ public class GroceryListRepository {
         }, BackpressureStrategy.LATEST);
     }
 
+    public Completable create(GroceryListId listId,
+                              String category,
+                              String name) {
+        return Completable.create((emitter) -> {
+            fireStore.collection("lists")
+                    .document(listId.id())
+                    .collection("items")
+                    .add(new GroceryListItemDocument(category, name, false))
+                    .addOnSuccessListener(aVoid -> emitter.onComplete())
+                    .addOnFailureListener(emitter::onError);
+        });
+    }
+
     public Completable update(GroceryListId listId,
                               GroceryListItemId itemId,
                               boolean purchased) {
         return Completable.create((emitter) -> {
-            Task<Void> task = fireStore.collection("lists")
+            fireStore.collection("lists")
                     .document(listId.id())
                     .collection("items")
                     .document(itemId.id())

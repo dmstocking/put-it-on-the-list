@@ -124,7 +124,7 @@ public class CategoryRepository {
                         addCategory("bakery", Color.BROWN, Icon.BAKERY);
                         addCategory("produce", Color.GREEN, Icon.PRODUCE);
                         addCategory("beverages", Color.LIGHT_BLUE, Icon.BEVERAGES);
-                        addCategory("snacks", Color.YELLOW, Icon.SNACKS);
+                        addCategory("snacks", Color.INDIGO, Icon.SNACKS);
                         addCategory("condiments", Color.ORANGE, Icon.CONDIMENTS);
                         addCategory("canned", Color.LIME, Icon.CANNED);
                         addCategory("baking", Color.DEEP_ORANGE, Icon.BAKING);

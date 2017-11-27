@@ -19,4 +19,5 @@ public enum Color {
     DEEP_ORANGE,
     BROWN,
     GREY,
+    BLACK,
 }

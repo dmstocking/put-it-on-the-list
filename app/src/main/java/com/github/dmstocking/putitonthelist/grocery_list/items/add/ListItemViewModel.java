@@ -14,12 +14,14 @@ public abstract class ListItemViewModel {
     public static ListItemViewModel create(@NonNull String id,
                                            @NonNull URI image,
                                            @NonNull String name,
-                                           @NonNull Color color) {
-        return new AutoValue_ListItemViewModel(id, image, name, color);
+                                           @NonNull Color color,
+                                           @NonNull CategoryDocument categoryDocument) {
+        return new AutoValue_ListItemViewModel(id, image, name, color, categoryDocument);
     }
 
     @NonNull public abstract String id();
     @NonNull public abstract URI image();
     @NonNull public abstract String name();
     @NonNull public abstract Color color();
+    @NonNull public abstract CategoryDocument category();
 }

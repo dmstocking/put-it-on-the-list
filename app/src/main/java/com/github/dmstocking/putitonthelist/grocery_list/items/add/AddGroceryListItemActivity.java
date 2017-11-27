@@ -36,6 +36,7 @@ public class AddGroceryListItemActivity extends AppCompatActivity {
         setContentView(R.layout.grocery_list__item__add__activity);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
 
         router = Conductor.attachRouter(this, container, savedInstanceState);
         if (!router.hasRootController()) {

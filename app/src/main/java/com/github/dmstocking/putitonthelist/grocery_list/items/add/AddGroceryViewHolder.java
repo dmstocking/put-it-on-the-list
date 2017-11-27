@@ -26,17 +26,23 @@ public class AddGroceryViewHolder extends RecyclerView.ViewHolder {
 
     @NonNull private final ImageLoadingService imageLoadingService;
     @NonNull private final ColorResources colorResources;
+    @NonNull private final AddGroceryListItemOnClick addGroceryListItemOnClick;
 
     public AddGroceryViewHolder(@Provided @NonNull ColorResources colorResources,
                                 @Provided @NonNull ImageLoadingService imageLoadingService,
+                                @Provided @NonNull AddGroceryListItemOnClick addGroceryListItemOnClick,
                                 View itemView) {
         super(itemView);
         this.imageLoadingService = imageLoadingService;
         this.colorResources = colorResources;
+        this.addGroceryListItemOnClick = addGroceryListItemOnClick;
         ButterKnife.bind(this, itemView);
     }
 
     public void bind(ListItemViewModel model) {
+        background.setOnClickListener((view) -> {
+            addGroceryListItemOnClick.onCategoryClicked(model.category());
+        });
         name.setText(model.name());
         imageLoadingService.load(model.image())
                 .into(category);

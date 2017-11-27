@@ -25,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:clickable="true"
-        android:elevation="8dp"
+        app:elevation="8dp"
         android:focusable="true"
         android:foreground="?attr/selectableItemBackground"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,13 +41,27 @@
             android:layout_height="match_parent"
             >
 
+            <ImageButton
+                android:id="@+id/category"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackground"
+                android:padding="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/name"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_unknown"
+                tools:ignore="ContentDescription"
+                />
+
             <EditText
                 android:id="@+id/name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginStart="16dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:inputType="textPersonName"
@@ -55,23 +69,9 @@
                 android:textAppearance="@style/TextAppearance.PutItOnTheList.Title"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/category"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <ImageButton
-                android:id="@+id/category"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
-                android:padding="12dp"
-                android:tint="?attr/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/name"
                 app:layout_constraintEnd_toStartOf="@+id/done"
+                app:layout_constraintStart_toEndOf="@id/category"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_unknown"
                 />
 
             <ImageButton
@@ -80,12 +80,14 @@
                 android:layout_height="48dp"
                 android:background="?attr/selectableItemBackground"
                 android:padding="12dp"
-                android:tint="?attr/colorAccent"
+                android:tint="@color/btn_borderless_foreground"
+                android:tintMode="src_in"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/category"
+                app:layout_constraintStart_toEndOf="@id/name"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_add_white_24dp"
+                app:srcCompat="@drawable/ic_check_black_24dp"
+                android:contentDescription="done"
                 />
 
         </android.support.constraint.ConstraintLayout>
