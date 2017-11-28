@@ -81,6 +81,7 @@ public class MainController
         unbinder = ButterKnife.bind(this, root);
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        list.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         DividerItemDecoration decorator = new DividerItemDecoration(
                 getActivity(),
                 DividerItemDecoration.VERTICAL);

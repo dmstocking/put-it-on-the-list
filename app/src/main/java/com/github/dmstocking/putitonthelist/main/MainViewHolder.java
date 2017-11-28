@@ -13,14 +13,13 @@ import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 
 import butterknife.BindDimen;
-import butterknife.BindDrawable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @AutoFactory
 public class MainViewHolder extends RecyclerView.ViewHolder {
 
-    @BindView(R.id.background) View background;
+    @BindView(R.id.background) CardView background;
     @BindView(R.id.name) TextView name;
     @BindView(R.id.items) TextView items;
 
@@ -48,11 +47,11 @@ public class MainViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull ListViewModel model) {
         this.model = model;
         if (model.selected()) {
-            background.setBackgroundResource(R.color.colorAccent);
+            background.setCardBackgroundColor(resources.getColor(R.color.colorAccent));
             name.setTextColor(resources.getColor(R.color.md_white_1000));
             items.setTextColor(resources.getColor(R.color.md_white_1000));
         } else {
-            background.setBackgroundResource(R.color.md_white_1000);
+            background.setCardBackgroundColor(resources.getColor(R.color.md_white_1000));
             name.setTextColor(resources.getColor(R.color.black_1000_87));
             items.setTextColor(resources.getColor(R.color.black_1000_87));
         }
