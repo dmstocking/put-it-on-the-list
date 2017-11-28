@@ -3,6 +3,7 @@ package com.github.dmstocking.putitonthelist.main;
 import android.util.Pair;
 
 import com.github.dmstocking.putitonthelist.authentication.UserService;
+import com.github.dmstocking.putitonthelist.uitl.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,10 +18,14 @@ import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.processors.ReplayProcessor;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class MainService {
 
+    public static final String TAG = "MainService";
+
+    @NonNull private final Log log;
     @NonNull private final MainRepository mainRepository;
     @NonNull private final MainResources mainResources;
     @NonNull private final UserService userService;
@@ -29,9 +34,11 @@ public class MainService {
     @NonNull private Set<GroceryListId> markedItems = new HashSet<>();
 
     @Inject
-    public MainService(MainRepository mainRepository,
+    public MainService(Log log,
+                       MainRepository mainRepository,
                        MainResources mainResources,
                        UserService userService) {
+        this.log = log;
         this.mainRepository = mainRepository;
         this.mainResources = mainResources;
         this.userService = userService;
@@ -83,10 +90,16 @@ public class MainService {
     }
 
     public void delete() {
+        Set<GroceryListId> markedItems = new HashSet<>(this.markedItems);
         Observable.fromIterable(markedItems)
                 .flatMapCompletable(id -> mainRepository.delete(id.id()))
                 .doOnComplete(this::cancel)
-                .subscribe();
+                .subscribeOn(Schedulers.io())
+                .subscribe(() -> {
+                    log.i(TAG, "Finished deleting items.");
+                }, throwable -> {
+                    log.e(TAG, "Error while deleting items", throwable);
+                });
     }
 
     public void cancel() {

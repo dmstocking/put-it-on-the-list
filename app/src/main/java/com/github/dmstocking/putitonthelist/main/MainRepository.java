@@ -1,8 +1,10 @@
 package com.github.dmstocking.putitonthelist.main;
 
 import com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository;
+import com.github.dmstocking.putitonthelist.uitl.FirestoreUtils;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -24,16 +26,19 @@ public class MainRepository {
 
     private static final String TAG = "MainRepository";
 
-    @NonNull private final CollectionReference listRef;
     @NonNull private final CategoryRepository categoryRepository;
+    @NonNull private final CollectionReference listRef;
+    @NonNull private final FirestoreUtils firestoreUtils;
     @NonNull private final Log log;
 
     @Inject
     public MainRepository(CategoryRepository categoryRepository,
                           Log log,
+                          FirestoreUtils firestoreUtils,
                           FirebaseFirestore firestore) {
         this.categoryRepository = categoryRepository;
         this.log = log;
+        this.firestoreUtils = firestoreUtils;
         this.listRef = firestore.collection("lists");
     }
 
@@ -85,15 +90,10 @@ public class MainRepository {
     }
 
     public Completable delete(String id) {
-        return Completable.create(emitter -> {
-            listRef.document(id)
-                    .delete()
-                    .addOnSuccessListener(documentReference -> {
-                        emitter.onComplete();
-                    }).addOnFailureListener(e -> {
-                        log.e(TAG, "Error while adding Grocery list.", e);
-                        emitter.onError(e);
-                    });
-        });
+        DocumentReference document = listRef.document(id);
+        return Completable.mergeArray(
+                firestoreUtils.deleteCollection(document.collection("categories")),
+                firestoreUtils.deleteCollection(document.collection("items")))
+                .andThen(firestoreUtils.deleteDocument(document));
     }
 }
