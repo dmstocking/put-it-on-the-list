@@ -10,12 +10,14 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.annotations.Nullable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.disposables.Disposables;
+import io.reactivex.schedulers.Schedulers;
 
 @Singleton
 public class GroceryListPresenter implements GroceryListContract.Presenter {
 
     public static final String TAG = "GroceryListPresenter";
 
+    @NonNull private final GroceryListRepository groceryListRepository;
     @NonNull private final GroceryListService groceryListService;
     @NonNull private final Log log;
 
@@ -23,8 +25,10 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
     @Nullable private GroceryListArguments groceryListArguments;
 
     @Inject
-    public GroceryListPresenter(GroceryListService groceryListService,
+    public GroceryListPresenter(GroceryListRepository groceryListRepository,
+                                GroceryListService groceryListService,
                                 Log log) {
+        this.groceryListRepository = groceryListRepository;
         this.groceryListService = groceryListService;
         this.log = log;
     }
@@ -51,6 +55,19 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
                                                           item.id());
             }
             completable.subscribe();
+        }
+    }
+
+    @Override
+    public void onDeletePurchased() {
+        if (groceryListArguments != null) {
+            groceryListRepository.deletePurchased(groceryListArguments.groceryListId())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(() -> {
+                        /* do nothing */
+                    }, throwable -> {
+                        log.e(TAG, "Error while deleting purchased items.", throwable);
+                    });
         }
     }
 

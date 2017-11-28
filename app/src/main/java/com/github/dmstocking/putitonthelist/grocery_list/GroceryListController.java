@@ -85,6 +85,10 @@ public class GroceryListController extends Controller implements GroceryListCont
         switch (item.getItemId()) {
             case R.id.sort:
                 getRouter().pushController(RouterTransaction.with(SortController.create(args.groceryListId())));
+                return true;
+            case R.id.delete_purchased:
+                presenter.onDeletePurchased();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

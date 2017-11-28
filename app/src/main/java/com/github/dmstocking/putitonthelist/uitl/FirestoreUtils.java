@@ -2,6 +2,7 @@ package com.github.dmstocking.putitonthelist.uitl;
 
 import android.support.annotation.NonNull;
 
+import com.github.dmstocking.optional.java.util.function.Supplier;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -44,16 +45,25 @@ public class FirestoreUtils {
         return deleteCollection(collection, 500);
     }
 
+    public Completable deleteInBatch(Supplier<Query> querySupplier) {
+        return deleteInBatch(querySupplier, 500);
+    }
+
     private Completable deleteCollection(final CollectionReference collection,
                                          final int batchSize) {
+        return deleteInBatch(() -> collection.orderBy(FieldPath.documentId()), batchSize);
+    }
+
+    private Completable deleteInBatch(Supplier<Query> querySupplier,
+                                      final int batchSize) {
         return Completable.defer(() -> {
-            Query query = collection.orderBy(FieldPath.documentId())
+            Query query = querySupplier.get()
                     .limit(batchSize);
 
             List<DocumentSnapshot> deleted = deleteQueryBatch(query);
             while (deleted.size() >= batchSize) {
                 DocumentSnapshot last = deleted.get(deleted.size() - 1);
-                query = collection.orderBy(FieldPath.documentId())
+                query = querySupplier.get()
                         .startAfter(last.getId())
                         .limit(batchSize);
                 deleted = deleteQueryBatch(query);

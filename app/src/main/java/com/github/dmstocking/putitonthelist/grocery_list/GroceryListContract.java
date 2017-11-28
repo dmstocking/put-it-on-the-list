@@ -7,6 +7,8 @@ public interface GroceryListContract {
         void detachView(View view);
 
         void onGroceryListItemClicked(ListViewModel item);
+
+        void onDeletePurchased();
     }
 
     interface View {

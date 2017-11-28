@@ -12,4 +12,10 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/delete_purchased"
+        android:contentDescription="Delete Purchased"
+        android:title="Delete Purchased"
+        app:showAsAction="never"/>
+
 </menu>

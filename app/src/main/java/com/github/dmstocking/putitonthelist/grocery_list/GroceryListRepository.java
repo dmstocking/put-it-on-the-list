@@ -3,9 +3,10 @@ package com.github.dmstocking.putitonthelist.grocery_list;
 import android.support.annotation.NonNull;
 
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
+import com.github.dmstocking.putitonthelist.uitl.FirestoreUtils;
 import com.github.dmstocking.putitonthelist.uitl.Log;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.ListenerRegistration;
 
@@ -25,12 +26,15 @@ public class GroceryListRepository {
     private static final String TAG = "GroceryListRepository";
 
     @NonNull private final FirebaseFirestore fireStore;
+    @NonNull private final FirestoreUtils firestoreUtils;
     @NonNull private final Log log;
 
     @Inject
     public GroceryListRepository(@NonNull FirebaseFirestore fireStore,
+                                 @NonNull FirestoreUtils firestoreUtils,
                                  @NonNull Log log) {
         this.fireStore = fireStore;
+        this.firestoreUtils = firestoreUtils;
         this.log = log;
     }
 
@@ -83,6 +87,16 @@ public class GroceryListRepository {
                     .update("purchased", purchased)
                     .addOnSuccessListener(aVoid -> emitter.onComplete())
                     .addOnFailureListener(emitter::onError);
+        });
+    }
+
+    public Completable deletePurchased(GroceryListId listId) {
+        return firestoreUtils.deleteInBatch(() -> {
+            return fireStore.collection("lists")
+                    .document(listId.id())
+                    .collection("items")
+                    .whereEqualTo("purchased", true)
+                    .orderBy(FieldPath.documentId());
         });
     }
 }
