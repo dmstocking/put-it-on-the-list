@@ -10,11 +10,13 @@ import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.Transaction;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -40,9 +42,33 @@ public class CategoryRepository {
     }
 
     @NonNull
+    public Single<CategoryDocument> fetchCategory(@NonNull GroceryListId groceryListId, @NonNull String name) {
+        return Single.create(emitter -> {
+            firestore.collection("lists")
+                    .document(groceryListId.id())
+                    .collection("categories")
+                    .whereEqualTo("category", name)
+                    .get()
+                    .addOnFailureListener(throwable -> {
+                        emitter.onError(throwable);
+                    })
+                    .addOnSuccessListener(snapshot -> {
+                        List<CategoryDocument> documents = snapshot.toObjects(CategoryDocument.class);
+                        if (documents.size() == 1) {
+                            CategoryDocument doc = documents.get(0);
+                            doc.setId(documents.get(0).getId());
+                            emitter.onSuccess(doc);
+                        } else {
+                            emitter.onError(new NoSuchElementException());
+                        }
+                    });
+        });
+    }
+
+    @NonNull
     public Flowable<List<CategoryDocument>> fetchAllCategories(@NonNull GroceryListId groceryListId) {
         return Flowable.create(emitter -> {
-            firestore.collection("lists")
+            ListenerRegistration registration = firestore.collection("lists")
                     .document(groceryListId.id())
                     .collection("categories")
                     .orderBy("order", Query.Direction.ASCENDING)
@@ -61,6 +87,7 @@ public class CategoryRepository {
                             log.w(TAG, "No data");
                         }
                     });
+            emitter.setCancellable(registration::remove);
         }, BackpressureStrategy.LATEST);
     }
 
