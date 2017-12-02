@@ -46,7 +46,8 @@ public class AddGroceryViewHolder extends RecyclerView.ViewHolder {
         name.setText(model.name());
         imageLoadingService.load(model.image())
                 .into(category);
-        name.setTextColor(colorResources.color(model.color()));
-        category.setColorFilter(colorResources.color(model.color()), PorterDuff.Mode.SRC_IN);
+        name.setTextColor(colorResources.color(model.textColor()));
+        category.setColorFilter(colorResources.color(model.textColor()), PorterDuff.Mode.SRC_IN);
+        background.setCardBackgroundColor(colorResources.color(model.backgroundColor()));
     }
 }

@@ -20,4 +20,5 @@ public enum Color {
     BROWN,
     GREY,
     BLACK,
+    WHITE,
 }

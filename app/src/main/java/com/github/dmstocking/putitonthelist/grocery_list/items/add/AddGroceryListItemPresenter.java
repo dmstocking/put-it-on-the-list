@@ -88,16 +88,22 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
                     Color color = Color.BLACK;
                     List<ListItemViewModel> listViewModels = new ArrayList<>();
                     for (CategoryDocument doc : input.categoryDocuments()) {
+                        boolean selected = doc.getId().equals(input.category().getId());
+                        Color backgroundColor = Color.WHITE;
+                        Color textColor = doc.getColor();
+                        if (selected) {
+                            icon = doc.getIcon();
+                            color = doc.getColor();
+                            backgroundColor = doc.getColor();
+                            textColor = Color.WHITE;
+                        }
                         listViewModels.add(ListItemViewModel.create(
                                 doc.getId(),
                                 iconUtils.iconToUri(doc.getIcon()),
                                 doc.getCategory(),
-                                doc.getColor(),
+                                textColor,
+                                backgroundColor,
                                 doc));
-                        if (doc.getId().equals(input.category().getId())) {
-                            icon = doc.getIcon();
-                            color = doc.getColor();
-                        }
                     }
                     boolean doneEnabled = input.name().length() > 0;
                     return ViewModel.create(doneEnabled, iconUtils.iconToUri(icon), color, listViewModels);

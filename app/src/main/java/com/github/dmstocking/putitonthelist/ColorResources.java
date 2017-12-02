@@ -38,6 +38,7 @@ public class ColorResources {
             case DEEP_ORANGE: return resources.getColor(R.color.md_deep_orange_900);
             case BROWN: return resources.getColor(R.color.md_brown_500);
             case GREY: return resources.getColor(R.color.md_grey_800);
+            case WHITE: return resources.getColor(R.color.md_white_1000);
             default:
             case BLACK: return resources.getColor(R.color.md_black_1000);
         }
