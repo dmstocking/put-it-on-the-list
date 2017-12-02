@@ -4,9 +4,9 @@ import android.support.annotation.NonNull;
 
 import com.github.dmstocking.putitonthelist.grocery_list.items.add.CategoryDocument;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
+import com.github.dmstocking.putitonthelist.uitl.IconUtils;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,12 +23,15 @@ public class SortService {
     public static final String TAG = "SortService";
 
     @NonNull private final CategoryRepository categoryRepository;
+    @NonNull private final IconUtils iconUtils;
     @NonNull private final Log log;
 
     @Inject
     public SortService(@NonNull CategoryRepository categoryRepository,
+                       @NonNull IconUtils iconUtils,
                        @NonNull Log log) {
         this.categoryRepository = categoryRepository;
+        this.iconUtils = iconUtils;
         this.log = log;
     }
 
@@ -44,7 +47,7 @@ public class SortService {
                     for (CategoryDocument category : categories) {
                         model.add(SortItemViewModel.create(
                                 CategoryId.create(category.getId()),
-                                URI.create("nothing://nope.com"),
+                                iconUtils.iconToUri(category.getIcon()),
                                 category.getCategory()));
                     }
                     return model;

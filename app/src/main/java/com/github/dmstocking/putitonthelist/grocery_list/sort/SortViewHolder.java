@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.dmstocking.putitonthelist.R;
+import com.github.dmstocking.putitonthelist.uitl.ImageLoadingService;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 @AutoFactory
 public class SortViewHolder extends RecyclerView.ViewHolder {
 
+    @NonNull private final ImageLoadingService imageLoadingService;
     @NonNull private final SortItemTouchHelper sortItemTouchHelper;
 
     @BindView(R.id.item) View item;
@@ -25,9 +27,11 @@ public class SortViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.handle) ImageView handle;
 
     public SortViewHolder(View itemView,
+                          @Provided @NonNull ImageLoadingService imageLoadingService,
                           @Provided @NonNull SortItemTouchHelper sortItemTouchHelper) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        this.imageLoadingService = imageLoadingService;
         this.sortItemTouchHelper = sortItemTouchHelper;
     }
 
@@ -39,5 +43,7 @@ public class SortViewHolder extends RecyclerView.ViewHolder {
             }
             return false;
         });
+        imageLoadingService.load(model.icon())
+                .into(image);
     }
 }
