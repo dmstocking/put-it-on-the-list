@@ -34,7 +34,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
 
     private final Subject<String> nameSubject = BehaviorSubject.createDefault("");
     private String name;
-    private final Subject<CategoryDocument> categorySubject = BehaviorSubject.createDefault(new CategoryDocument());
+    private final Subject<CategoryDocument> categorySubject = BehaviorSubject.createDefault(new CategoryDocument("other"));
     private CategoryDocument category;
 
     @Inject
@@ -88,7 +88,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
                     Color color = Color.BLACK;
                     List<ListItemViewModel> listViewModels = new ArrayList<>();
                     for (CategoryDocument doc : input.categoryDocuments()) {
-                        boolean selected = doc.getId().equals(input.category().getId());
+                        boolean selected = doc.getCategory().equals(input.category().getCategory());
                         Color backgroundColor = Color.WHITE;
                         Color textColor = doc.getColor();
                         if (selected) {
