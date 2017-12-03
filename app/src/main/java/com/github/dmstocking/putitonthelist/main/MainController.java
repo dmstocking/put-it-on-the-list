@@ -1,7 +1,10 @@
 package com.github.dmstocking.putitonthelist.main;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.DividerItemDecoration;
@@ -30,6 +33,8 @@ public class MainController
         extends Controller
         implements MainContract.View, OnGroceryListClicked, OnGroceryListLongClicked {
 
+    private static final String LAYOUT_MANAGER_STATE = "LAYOUT_MANAGER_STATE";
+    
     @Inject MainContract.Presenter presenter;
     @Inject MainAdapter adapter;
 
@@ -70,6 +75,9 @@ public class MainController
         }
     };
 
+    @NonNull private LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+    @Nullable private Parcelable layoutManagerState;
+
     @NonNull
     @Override
     protected View onCreateView(@NonNull LayoutInflater inflater, @NonNull ViewGroup container) {
@@ -80,7 +88,8 @@ public class MainController
         View root = inflater.inflate(R.layout.main_controller, container, false);
         unbinder = ButterKnife.bind(this, root);
         list.setAdapter(adapter);
-        list.setLayoutManager(new LinearLayoutManager(getActivity()));
+        layoutManager = new LinearLayoutManager(getActivity());
+        list.setLayoutManager(layoutManager);
         list.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         DividerItemDecoration decorator = new DividerItemDecoration(
                 getActivity(),
@@ -112,6 +121,11 @@ public class MainController
         }
 
         adapter.updateModel(viewModel.groceryLists());
+
+        if (layoutManagerState != null) {
+            layoutManager.onRestoreInstanceState(layoutManagerState);
+            layoutManagerState = null;
+        }
     }
 
     @Override
@@ -127,6 +141,22 @@ public class MainController
     @Override
     public void launchGroceryList(GroceryListId id) {
         startActivity(GroceryListActivity.create(getActivity(), id));
+    }
+
+    @Override
+    protected void onRestoreViewState(@NonNull View view, @NonNull Bundle savedViewState) {
+        super.onRestoreViewState(view, savedViewState);
+        layoutManagerState = savedViewState.getParcelable(LAYOUT_MANAGER_STATE);
+    }
+
+    @Override
+    protected void onSaveViewState(@NonNull View view, @NonNull Bundle outState) {
+        super.onSaveViewState(view, outState);
+        if (layoutManagerState == null) {
+            outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManager.onSaveInstanceState());
+        } else {
+            outState.putParcelable(LAYOUT_MANAGER_STATE, layoutManagerState);
+        }
     }
 
     @Override

@@ -43,7 +43,7 @@ public class SortAdapter extends RecyclerView.Adapter<SortViewHolder> {
 
             @Override
             public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-                return oldModel.get(oldItemPosition).id() == newModel.get(newItemPosition).id();
+                return oldModel.get(oldItemPosition).id().equals(newModel.get(newItemPosition).id());
             }
 
             @Override
