@@ -84,7 +84,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
                 categoryRepository.fetchAllCategories(args.id()).toObservable(),
                 Input::create)
                 .map(input -> {
-                    Icon icon = Icon.UNKNOWN;
+                    Icon icon = Icon.OTHER;
                     Color color = Color.BLACK;
                     List<ListItemViewModel> listViewModels = new ArrayList<>();
                     for (CategoryDocument doc : input.categoryDocuments()) {

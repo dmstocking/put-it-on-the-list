@@ -19,6 +19,5 @@ public enum Icon {
     PERSONAL_CARE,
     MEDICINE,
     CLEANING,
-    UNKNOWN,
     OTHER,
 }

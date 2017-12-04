@@ -68,7 +68,7 @@ public class GroceryListService {
                     for (GroceryListItemDocument item : documents) {
                         Icon icon = Optional.ofNullable(pair.categories().get(item.getCategory()))
                                 .map(CategoryDocument::getIcon)
-                                .orElse(Icon.UNKNOWN);
+                                .orElse(Icon.OTHER);
                         list.add(ListViewModel.create(
                                 GroceryListItemId.create(item.getId()),
                                 iconUtils.iconToUri(icon),

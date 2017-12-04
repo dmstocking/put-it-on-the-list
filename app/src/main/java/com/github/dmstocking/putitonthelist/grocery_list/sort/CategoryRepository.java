@@ -165,7 +165,6 @@ public class CategoryRepository {
                         addCategory("personal care", Color.LIGHT_GREEN, Icon.PERSONAL_CARE);
                         addCategory("medicine", Color.TEAL, Icon.MEDICINE);
                         addCategory("cleaning", Color.CYAN, Icon.CLEANING);
-                        addCategory("unknown", Color.GREY, Icon.UNKNOWN);
                         addCategory("other", Color.GREY, Icon.OTHER);
                     }
                 };

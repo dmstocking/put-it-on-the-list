@@ -22,27 +22,26 @@ public class IconUtils {
 
     public URI iconToUri(@NonNull Icon icon) {
         switch (icon) {
-            case FREEZER:
-            case DELI:
-            case BAKERY:
-            case PRODUCE:
-            case BEVERAGES:
-            case DAIRY:
-            case REFRIGERATED:
-            case MEAT:
-            case SNACKS:
-            case CANNED:
-            case CONDIMENTS:
-            case BAKING:
-            case INTERNATIONAL:
-            case PETS:
-            case BABY:
-            case PERSONAL_CARE:
-            case MEDICINE:
-            case CLEANING:
-            case UNKNOWN:
+            case FREEZER: return iconResources.christmasSnowflake();
+            case DELI: return iconResources.steak();
+            case BAKERY: return iconResources.cake();
+            case PRODUCE: return iconResources.apple();
+            case BEVERAGES: return iconResources.sodaCan();
+            case DAIRY: return iconResources.cheese();
+            case REFRIGERATED: return iconResources.refrigerator();
+            case MEAT: return iconResources.chickenDrumStick();
+            case SNACKS: return iconResources.pretzel();
+            case CANNED: return iconResources.can();
+            case CONDIMENTS: return iconResources.bottle();
+            case BAKING: return iconResources.oven();
+            case INTERNATIONAL: return iconResources.flag();
+            case PETS: return iconResources.paw();
+            case BABY: return iconResources.babyPacifier();
+            case PERSONAL_CARE: return iconResources.soap();
+            case MEDICINE: return iconResources.firstAid();
+            case CLEANING: return iconResources.vacuum();
             case OTHER:
-            default: return iconResources.unknown();
+            default: return iconResources.questionMark();
         }
     }
 }
