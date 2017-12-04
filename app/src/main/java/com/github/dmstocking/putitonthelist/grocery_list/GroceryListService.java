@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.github.dmstocking.optional.java.util.Optional;
 import com.github.dmstocking.optional.java.util.function.Function;
+import com.github.dmstocking.putitonthelist.Color;
 import com.github.dmstocking.putitonthelist.Icon;
 import com.github.dmstocking.putitonthelist.grocery_list.items.add.CategoryDocument;
 import com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository;
@@ -66,12 +67,17 @@ public class GroceryListService {
                     List<GroceryListItemDocument> documents = pair.groceryListItems();
                     List<ListViewModel> list = new ArrayList<>();
                     for (GroceryListItemDocument item : documents) {
-                        Icon icon = Optional.ofNullable(pair.categories().get(item.getCategory()))
+                        CategoryDocument category = pair.categories().get(item.getCategory());
+                        Icon icon = Optional.ofNullable(category)
                                 .map(CategoryDocument::getIcon)
                                 .orElse(Icon.OTHER);
+                        Color iconBackground = Optional.of(category)
+                                .map(CategoryDocument::getColor)
+                                .orElse(Color.WHITE);
                         list.add(ListViewModel.create(
                                 GroceryListItemId.create(item.getId()),
                                 iconUtils.iconToUri(icon),
+                                iconBackground,
                                 item.getName(),
                                 item.isPurchased(),
                                 false));

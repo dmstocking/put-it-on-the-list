@@ -18,9 +18,20 @@
         >
 
         <ImageView
+            android:id="@+id/category_background"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            app:layout_constraintTop_toTopOf="@+id/category"
+            app:layout_constraintBottom_toBottomOf="@+id/category"
+            app:layout_constraintEnd_toEndOf="@+id/category"
+            app:layout_constraintStart_toStartOf="@+id/category"
+            app:srcCompat="@drawable/circle_32dp"
+            />
+
+        <ImageView
             android:id="@+id/category"
             android:layout_width="24dp"
-            android:layout_height="wrap_content"
+            android:layout_height="24dp"
             android:layout_marginBottom="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
@@ -28,6 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_apple"
+            android:tint="@color/md_white_1000"
             />
 
         <CheckedTextView
