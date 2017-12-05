@@ -97,6 +97,7 @@ public class GroceryListController extends Controller implements GroceryListCont
             if (vh != null && vh.itemView != null) {
                 vh.itemView.requestFocus();
             }
+            layoutManager.scrollToPosition(lastFocusedPosition);
             lastFocusedPosition = -1;
         }
     }
