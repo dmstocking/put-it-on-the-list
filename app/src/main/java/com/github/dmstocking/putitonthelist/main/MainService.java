@@ -3,6 +3,7 @@ package com.github.dmstocking.putitonthelist.main;
 import android.util.Pair;
 
 import com.github.dmstocking.putitonthelist.authentication.UserService;
+import com.github.dmstocking.putitonthelist.uitl.Analytics;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class MainService {
 
     public static final String TAG = "MainService";
 
+    @NonNull private final Analytics analytics;
     @NonNull private final Log log;
     @NonNull private final MainRepository mainRepository;
     @NonNull private final MainResources mainResources;
@@ -34,10 +36,11 @@ public class MainService {
     @NonNull private Set<GroceryListId> markedItems = new HashSet<>();
 
     @Inject
-    public MainService(Log log,
+    public MainService(Analytics analytics, Log log,
                        MainRepository mainRepository,
                        MainResources mainResources,
                        UserService userService) {
+        this.analytics = analytics;
         this.log = log;
         this.mainRepository = mainRepository;
         this.mainResources = mainResources;
@@ -46,7 +49,11 @@ public class MainService {
     }
 
     public Completable create(@NonNull String name) {
-        return mainRepository.create(userService.getUserId(), name);
+        return mainRepository.create(userService.getUserId(), name)
+                .doOnSuccess(id -> {
+                    analytics.createdList();
+                })
+                .toCompletable();
     }
 
     public Flowable<MainViewModel> model() {
@@ -92,7 +99,10 @@ public class MainService {
     public void delete() {
         Set<GroceryListId> markedItems = new HashSet<>(this.markedItems);
         Observable.fromIterable(markedItems)
-                .flatMapCompletable(id -> mainRepository.delete(id.id()))
+                .flatMapCompletable(id -> {
+                    analytics.deletedList();
+                    return mainRepository.delete(id.id());
+                })
                 .doOnComplete(this::cancel)
                 .subscribeOn(Schedulers.io())
                 .subscribe(() -> {

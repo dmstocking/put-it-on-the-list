@@ -7,6 +7,7 @@ import com.github.dmstocking.putitonthelist.Icon;
 import com.github.dmstocking.putitonthelist.PerController;
 import com.github.dmstocking.putitonthelist.grocery_list.GroceryListRepository;
 import com.github.dmstocking.putitonthelist.grocery_list.sort.CategoryRepository;
+import com.github.dmstocking.putitonthelist.uitl.Analytics;
 import com.github.dmstocking.putitonthelist.uitl.IconUtils;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.google.auto.value.AutoValue;
@@ -25,8 +26,9 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
 
     public static final String TAG = "AddGroceryListItemPresenter";
 
-    @NonNull private final AddGroceryListItemContract.View view;
     @NonNull private final AddGroceryListItemArgs args;
+    @NonNull private final AddGroceryListItemContract.View view;
+    @NonNull private final Analytics analytics;
     @NonNull private final CategoryRepository categoryRepository;
     @NonNull private final GroceryListRepository repository;
     @NonNull private final IconUtils iconUtils;
@@ -40,12 +42,14 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
     @Inject
     public AddGroceryListItemPresenter(@NonNull AddGroceryListItemContract.View view,
                                        @NonNull AddGroceryListItemArgs args,
+                                       @NonNull Analytics analytics,
                                        @NonNull CategoryRepository categoryRepository,
                                        @NonNull GroceryListRepository repository,
                                        @NonNull IconUtils iconUtils,
                                        @NonNull Log log) {
         this.view = view;
         this.args = args;
+        this.analytics = analytics;
         this.categoryRepository = categoryRepository;
         this.iconUtils = iconUtils;
         this.repository = repository;
@@ -58,6 +62,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
                           category.getCategory(),
                           name)
                 .subscribe(() -> {
+                    analytics.addedItem();
                     view.finish();
                 }, throwable -> {
                     log.e(TAG, "Failure while adding item", throwable);

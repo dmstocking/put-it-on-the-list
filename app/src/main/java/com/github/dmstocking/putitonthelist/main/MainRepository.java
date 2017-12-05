@@ -42,7 +42,7 @@ public class MainRepository {
         this.listRef = firestore.collection("lists");
     }
 
-    public Completable create(String authId, String name) {
+    public Single<GroceryListId> create(String authId, String name) {
         return Single.<GroceryListId>create(emitter -> {
             GroceryListDocument doc = new GroceryListDocument(
                     new HashMap<String, Boolean>() {{
@@ -60,8 +60,9 @@ public class MainRepository {
                         emitter.onError(e);
                     });
         })
-                .flatMapCompletable(id -> {
-                    return categoryRepository.createDefaultCategories(id);
+                .flatMap(id -> {
+                    return categoryRepository.createDefaultCategories(id)
+                            .toSingleDefault(id);
                 });
     }
 

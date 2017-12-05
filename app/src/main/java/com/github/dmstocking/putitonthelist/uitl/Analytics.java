@@ -2,18 +2,17 @@ package com.github.dmstocking.putitonthelist.uitl;
 
 import io.reactivex.annotations.NonNull;
 
-interface Analytics {
+public interface Analytics {
 
-    void createdList(@NonNull String name);
-    void deletedList(@NonNull String name);
+    void createdList();
+    void deletedList();
 
     void editedSortOrder();
 
-    void addedItem(@NonNull String name);
-    void deletedItem(@NonNull String name);
-    void editedItem(@NonNull String name);
-    void purchasedItem(@NonNull String name);
-    void unpurchasedItem(@NonNull String name);
+    void addedItem();
+    void purchasedItem(@NonNull String id);
+    void unpurchasedItem(@NonNull String id);
+    void deletedPurchased();
 
     void userRegisters();
 }

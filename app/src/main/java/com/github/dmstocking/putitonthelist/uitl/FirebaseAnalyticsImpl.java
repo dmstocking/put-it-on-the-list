@@ -20,63 +20,46 @@ public class FirebaseAnalyticsImpl implements Analytics {
     }
 
     @Override
-    public void createdList(@NonNull String name) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        firebaseAnalytics.logEvent("created_list", bundle);
+    public void createdList() {
+        firebaseAnalytics.logEvent("created_list", null);
     }
 
     @Override
-    public void deletedList(@NonNull String name) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        firebaseAnalytics.logEvent("deleted_list", bundle);
+    public void deletedList() {
+        firebaseAnalytics.logEvent("deleted_list", null);
     }
 
     @Override
     public void editedSortOrder() {
-        Bundle bundle = new Bundle();
-        firebaseAnalytics.logEvent("edited_sort_order", bundle);
+        firebaseAnalytics.logEvent("edited_sort_order", null);
     }
 
     @Override
-    public void addedItem(@NonNull String name) {
+    public void addedItem() {
+        firebaseAnalytics.logEvent("added_item", null);
+    }
+
+    @Override
+    public void purchasedItem(@NonNull String id) {
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
         firebaseAnalytics.logEvent("added_item", bundle);
     }
 
     @Override
-    public void deletedItem(@NonNull String name) {
+    public void unpurchasedItem(@NonNull String id) {
         Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
         firebaseAnalytics.logEvent("added_item", bundle);
     }
 
     @Override
-    public void editedItem(@NonNull String name) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        firebaseAnalytics.logEvent("added_item", bundle);
-    }
-
-    @Override
-    public void purchasedItem(@NonNull String name) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        firebaseAnalytics.logEvent("added_item", bundle);
-    }
-
-    @Override
-    public void unpurchasedItem(@NonNull String name) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, name);
-        firebaseAnalytics.logEvent("added_item", bundle);
+    public void deletedPurchased() {
+        firebaseAnalytics.logEvent("deleted_purchased", null);
     }
 
     @Override
     public void userRegisters() {
-        Bundle bundle = new Bundle();
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, bundle);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, null);
     }
 }

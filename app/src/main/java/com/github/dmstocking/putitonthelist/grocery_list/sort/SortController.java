@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -18,6 +16,7 @@ import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,6 +41,7 @@ public class SortController extends Controller {
     @NonNull private LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
 
     @NonNull private Disposable subscription = Disposables.empty();
+    @NonNull private List<SortItemViewModel> startModel = Collections.emptyList();
 
     @Nullable private Parcelable layoutManagerState = null;
 
@@ -79,6 +79,7 @@ public class SortController extends Controller {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(model -> {
+                    this.startModel = new ArrayList<>(model);
                     sortAdapter.update(model);
                     if (layoutManagerState != null) {
                         layoutManager.onRestoreInstanceState(layoutManagerState);
@@ -107,11 +108,13 @@ public class SortController extends Controller {
     protected void onDetach(@NonNull View view) {
         super.onDetach(view);
         subscription.dispose();
-        SortArguments args = getArgs().getParcelable("args");
-        List<CategoryId> ids = new ArrayList<>();
-        for (SortItemViewModel model : sortAdapter.getModel()) {
-            ids.add(model.id());
+        if (!startModel.equals(sortAdapter.getModel())) {
+            SortArguments args = getArgs().getParcelable("args");
+            List<CategoryId> ids = new ArrayList<>();
+            for (SortItemViewModel model : sortAdapter.getModel()) {
+                ids.add(model.id());
+            }
+            sortService.reorder(args.groceryListId(), ids);
         }
-        sortService.reorder(args.groceryListId(), ids);
     }
 }

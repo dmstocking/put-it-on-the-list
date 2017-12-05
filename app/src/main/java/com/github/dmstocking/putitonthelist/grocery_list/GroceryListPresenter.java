@@ -1,5 +1,6 @@
 package com.github.dmstocking.putitonthelist.grocery_list;
 
+import com.github.dmstocking.putitonthelist.uitl.Analytics;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 
 import javax.inject.Inject;
@@ -17,6 +18,7 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
 
     public static final String TAG = "GroceryListPresenter";
 
+    @NonNull private final Analytics analytics;
     @NonNull private final GroceryListRepository groceryListRepository;
     @NonNull private final GroceryListService groceryListService;
     @NonNull private final Log log;
@@ -25,9 +27,11 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
     @Nullable private GroceryListArguments groceryListArguments;
 
     @Inject
-    public GroceryListPresenter(GroceryListRepository groceryListRepository,
+    public GroceryListPresenter(Analytics analytics,
+                                GroceryListRepository groceryListRepository,
                                 GroceryListService groceryListService,
                                 Log log) {
+        this.analytics = analytics;
         this.groceryListRepository = groceryListRepository;
         this.groceryListService = groceryListService;
         this.log = log;
@@ -49,10 +53,12 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
             Completable completable;
             if (item.purchased()) {
                 completable = groceryListService.unpurchase(groceryListArguments.groceryListId(),
-                                                            item.id());
+                                                            item.id())
+                        .doOnComplete(() -> analytics.unpurchasedItem(item.id().id()));
             } else {
                 completable = groceryListService.purchase(groceryListArguments.groceryListId(),
-                                                          item.id());
+                                                          item.id())
+                        .doOnComplete(() -> analytics.purchasedItem(item.id().id()));
             }
             completable.subscribe();
         }
@@ -64,7 +70,7 @@ public class GroceryListPresenter implements GroceryListContract.Presenter {
             groceryListRepository.deletePurchased(groceryListArguments.groceryListId())
                     .subscribeOn(Schedulers.io())
                     .subscribe(() -> {
-                        /* do nothing */
+                        analytics.deletedPurchased();
                     }, throwable -> {
                         log.e(TAG, "Error while deleting purchased items.", throwable);
                     });
