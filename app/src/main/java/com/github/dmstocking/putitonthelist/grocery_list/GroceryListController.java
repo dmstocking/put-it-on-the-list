@@ -14,11 +14,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bluelinelabs.conductor.Controller;
-import com.bluelinelabs.conductor.RouterTransaction;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.grocery_list.sort.SortActivity;
-import com.github.dmstocking.putitonthelist.grocery_list.sort.SortController;
 
 import javax.inject.Inject;
 
@@ -36,6 +34,7 @@ public class GroceryListController extends Controller implements GroceryListCont
 
     @NonNull private LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
     private Parcelable layoutManagerState;
+    private int lastFocusedPosition;
 
     public GroceryListController(@Nullable Bundle args) {
         super(args);
@@ -92,10 +91,20 @@ public class GroceryListController extends Controller implements GroceryListCont
             layoutManager.onRestoreInstanceState(layoutManagerState);
             layoutManagerState = null;
         }
+
+        if (lastFocusedPosition >= 0) {
+            RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(lastFocusedPosition);
+            if (vh != null && vh.itemView != null) {
+                vh.itemView.requestFocus();
+            }
+            lastFocusedPosition = -1;
+        }
     }
 
     @Override
-    public void onGroceryListItemClicked(ListViewModel item) {
+    public void onGroceryListItemClicked(View view,
+                                         ListViewModel item) {
+        lastFocusedPosition = recyclerView.getChildAdapterPosition(view);
         presenter.onGroceryListItemClicked(item);
     }
 

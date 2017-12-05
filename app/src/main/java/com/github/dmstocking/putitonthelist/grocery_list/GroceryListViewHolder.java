@@ -46,7 +46,7 @@ public class GroceryListViewHolder extends RecyclerView.ViewHolder {
         this.imageLoadingService = imageLoadingService;
         ButterKnife.bind(this, itemView);
         background.setOnClickListener(view -> {
-            onGroceryListItemClicked.onGroceryListItemClicked(model);
+            onGroceryListItemClicked.onGroceryListItemClicked(itemView, model);
         });
     }
 
