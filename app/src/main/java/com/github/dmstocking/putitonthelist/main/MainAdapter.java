@@ -16,13 +16,13 @@ import javax.inject.Inject;
 
 public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
 
-    @NonNull private final MainViewHolderFactory mainViewHolderFactory;
+    @NonNull private final MainViewHolderItemFactory mainViewHolderItemFactory;
 
     @NonNull private List<ListViewModel> model = new ArrayList<>();
 
     @Inject
-    public MainAdapter(@NonNull MainViewHolderFactory mainViewHolderFactory) {
-        this.mainViewHolderFactory = mainViewHolderFactory;
+    public MainAdapter(@NonNull MainViewHolderItemFactory mainViewHolderItemFactory) {
+        this.mainViewHolderItemFactory = mainViewHolderItemFactory;
     }
 
     public void updateModel(List<ListViewModel> newModel) {
@@ -54,14 +54,30 @@ public class MainAdapter extends RecyclerView.Adapter<MainViewHolder> {
     @Override
     public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.main_list_item, parent, false);
-        return mainViewHolderFactory.create(view);
+        switch (ListViewModel.Type.values()[viewType]) {
+            default:
+            case ITEM: {
+                View view = inflater.inflate(R.layout.main_list_item, parent, false);
+                return mainViewHolderItemFactory.create(view);
+            }
+            case AD_BANNER: {
+                View view = inflater.inflate(R.layout.main_list_ad_item, parent, false);
+                return new MainViewHolderItemAd(view);
+            }
+        }
     }
 
     @Override
     public void onBindViewHolder(MainViewHolder holder, int position) {
         ListViewModel item = model.get(position);
         holder.bind(item);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return model.get(position)
+                .type()
+                .ordinal();
     }
 
     @Override

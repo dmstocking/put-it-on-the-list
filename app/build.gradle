@@ -56,6 +56,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.github.dmstocking:support-optional:1.2'
     implementation 'com.google.android.gms:play-services-auth:11.4.2'
+    implementation 'com.google.android.gms:play-services-ads:11.4.2'
     implementation 'com.google.dagger:dagger:2.11'
     implementation 'com.google.firebase:firebase-auth:11.4.2'
     implementation 'com.google.firebase:firebase-firestore:11.4.2'

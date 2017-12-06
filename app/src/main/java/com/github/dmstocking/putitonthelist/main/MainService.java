@@ -66,11 +66,18 @@ public class MainService {
                     List<GroceryListDocument> items = pair.first;
                     Set<GroceryListId> marked = pair.second;
                     List<ListViewModel> listItems = new ArrayList<>();
+                    listItems.add(ListViewModel.create(
+                            ListViewModel.Type.AD_BANNER,
+                            GroceryListId.create("AD_ID"),
+                            "",
+                            "",
+                            false));
                     for (GroceryListDocument doc : items) {
                         GroceryListId id = GroceryListId.create(doc.getId());
                         String caption = doc.getPurchased() + "/" + doc.getTotal();
                         listItems.add(
                                 ListViewModel.create(
+                                        ListViewModel.Type.ITEM,
                                         id,
                                         doc.getName(),
                                         caption,
