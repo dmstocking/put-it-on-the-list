@@ -41,11 +41,10 @@
             android:layout_height="match_parent"
             >
 
-            <ImageButton
+            <ImageView
                 android:id="@+id/category"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:background="?attr/selectableItemBackground"
                 android:padding="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,7 +85,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/name"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/ic_check_black_24dp"
+                app:srcCompat="@drawable/ic_check_circle_black_24dp"
                 android:contentDescription="done"
                 />
 
