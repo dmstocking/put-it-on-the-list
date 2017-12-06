@@ -34,10 +34,10 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
     @NonNull private final IconUtils iconUtils;
     @NonNull private final Log log;
 
-    private final Subject<String> nameSubject = BehaviorSubject.createDefault("");
     private String name;
-    private final Subject<CategoryDocument> categorySubject = BehaviorSubject.createDefault(new CategoryDocument("other"));
-    private CategoryDocument category;
+    private final Subject<String> nameSubject = BehaviorSubject.createDefault("");
+    private CategoryDocument category = new CategoryDocument("other");
+    private final Subject<CategoryDocument> categorySubject = BehaviorSubject.createDefault(category);
 
     @Inject
     public AddGroceryListItemPresenter(@NonNull AddGroceryListItemContract.View view,
