@@ -10,7 +10,7 @@ android {
     }
     defaultConfig {
         applicationId "com.github.dmstocking.putitonthelist"
-        minSdkVersion 16
+        minSdkVersion 21
         targetSdkVersion 26
         resConfigs "auto"
         versionCode 1

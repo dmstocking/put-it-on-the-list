@@ -1,5 +1,6 @@
 package com.github.dmstocking.putitonthelist;
 
+import android.content.ComponentName;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
@@ -29,5 +30,11 @@ public class AndroidModule {
     @Named("package")
     public String providesPackageName() {
         return application.getPackageName();
+    }
+
+    @Provides
+    @Singleton
+    public ComponentName providesComponentName() {
+        return application.comp
     }
 }
