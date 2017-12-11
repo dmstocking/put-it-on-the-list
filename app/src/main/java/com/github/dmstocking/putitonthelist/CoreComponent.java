@@ -9,6 +9,7 @@ import com.github.dmstocking.putitonthelist.grocery_list.sort.SortModule;
 import com.github.dmstocking.putitonthelist.main.MainActivity;
 import com.github.dmstocking.putitonthelist.main.MainComponent;
 import com.github.dmstocking.putitonthelist.main.MainModule;
+import com.github.dmstocking.putitonthelist.main.widget.WidgetModule;
 import com.github.dmstocking.putitonthelist.uitl.UtilModule;
 
 import javax.inject.Singleton;
@@ -28,4 +29,6 @@ public interface CoreComponent {
     GroceryListComponent groceryListComponent(GroceryListModule groceryListModule);
     AddGroceryListItemComponent addGroceryListItemComponent(AddGroceryListItemModule groceryListItemModule);
     SortComponent sortComponent(SortModule sortModule);
+
+    WidgetComponent widgetComponent(WidgetModule widgetModule);
 }

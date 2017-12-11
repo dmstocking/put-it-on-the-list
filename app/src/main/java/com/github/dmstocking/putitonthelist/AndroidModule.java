@@ -1,7 +1,10 @@
 package com.github.dmstocking.putitonthelist;
 
+import android.content.ComponentName;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
+
+import com.github.dmstocking.putitonthelist.main.widget.WidgetProvider;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -29,5 +32,12 @@ public class AndroidModule {
     @Named("package")
     public String providesPackageName() {
         return application.getPackageName();
+    }
+
+    @Provides
+    @Singleton
+    @Named("MainWidgetProvider")
+    public ComponentName providesComponentName() {
+        return new ComponentName(application, WidgetProvider.class);
     }
 }
