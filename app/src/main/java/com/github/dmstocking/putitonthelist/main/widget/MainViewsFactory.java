@@ -13,7 +13,6 @@ import com.github.dmstocking.putitonthelist.main.GroceryListDocument;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 import com.github.dmstocking.putitonthelist.main.ListViewModel;
 import com.github.dmstocking.putitonthelist.main.MainRepository;
-import com.github.dmstocking.putitonthelist.main.MainViewModel;
 import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
@@ -66,7 +65,7 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
                                 ListViewModel.Type.ITEM,
                                 GroceryListId.create(document.getId()),
                                 document.getName(),
-                                "0/0",
+                                document.getPurchased() + "/" + document.getTotal(),
                                 false));
                     }
                     return list;

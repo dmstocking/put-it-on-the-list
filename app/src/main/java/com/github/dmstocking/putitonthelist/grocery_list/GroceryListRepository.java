@@ -73,7 +73,7 @@ public class GroceryListRepository {
                     .add(new GroceryListItemDocument(category, name, false))
                     .addOnSuccessListener(aVoid -> emitter.onComplete())
                     .addOnFailureListener(emitter::onError);
-        });
+        }).andThen(updateNumberOfItems(listId));
     }
 
     public Completable update(GroceryListId listId,
@@ -87,7 +87,7 @@ public class GroceryListRepository {
                     .update("purchased", purchased)
                     .addOnSuccessListener(aVoid -> emitter.onComplete())
                     .addOnFailureListener(emitter::onError);
-        });
+        }).andThen(updateNumberOfItems(listId));
     }
 
     public Completable deletePurchased(GroceryListId listId) {
@@ -97,6 +97,31 @@ public class GroceryListRepository {
                     .collection("items")
                     .whereEqualTo("purchased", true)
                     .orderBy(FieldPath.documentId());
-        });
+        }).andThen(updateNumberOfItems(listId));
+    }
+
+    private Completable updateNumberOfItems(GroceryListId listId) {
+        return getGroceryListDocument(listId)
+                .firstOrError()
+                .flatMapCompletable(items -> {
+                    int purchased = 0;
+                    int total = 0;
+                    for (GroceryListItemDocument item : items) {
+                        total++;
+                        if (item.isPurchased()) {
+                            purchased++;
+                        }
+                    }
+                    int finalPurchased = purchased;
+                    int finalTotal = total;
+                    return Completable.create((emitter) -> {
+                        fireStore.collection("lists")
+                                .document(listId.id())
+                                .update("purchased", finalPurchased,
+                                        "total", finalTotal)
+                                .addOnSuccessListener(aVoid -> emitter.onComplete())
+                                .addOnFailureListener(emitter::onError);
+                    });
+                });
     }
 }
