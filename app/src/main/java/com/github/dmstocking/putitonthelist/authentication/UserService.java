@@ -6,6 +6,7 @@ import com.google.firebase.auth.FirebaseUser;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 
 @Singleton
@@ -18,12 +19,22 @@ public class UserService {
         this.firebaseAuth = firebaseAuth;
     }
 
-    public String getUserId() {
-        FirebaseUser currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            return currentUser.getUid();
-        } else {
-            return "";
-        }
+    public Observable<Boolean> isLoggedIn() {
+        return getUserId().map(uid -> !uid.isEmpty());
+    }
+
+    public Observable<String> getUserId() {
+        return Observable.create((emitter) -> {
+            FirebaseAuth.AuthStateListener authStateListener = firebaseAuth -> {
+                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                if (currentUser != null) {
+                    emitter.onNext(currentUser.getUid());
+                } else {
+                    emitter.onNext("");
+                }
+            };
+            firebaseAuth.addAuthStateListener(authStateListener);
+            emitter.setCancellable(() -> firebaseAuth.removeAuthStateListener(authStateListener));
+        });
     }
 }

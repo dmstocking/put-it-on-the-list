@@ -1,5 +1,6 @@
 package com.github.dmstocking.putitonthelist;
 
+import com.github.dmstocking.putitonthelist.authentication.UserService;
 import com.github.dmstocking.putitonthelist.grocery_list.GroceryListComponent;
 import com.github.dmstocking.putitonthelist.grocery_list.GroceryListModule;
 import com.github.dmstocking.putitonthelist.grocery_list.items.add.AddGroceryListItemComponent;
@@ -10,6 +11,7 @@ import com.github.dmstocking.putitonthelist.main.MainActivity;
 import com.github.dmstocking.putitonthelist.main.MainComponent;
 import com.github.dmstocking.putitonthelist.main.MainModule;
 import com.github.dmstocking.putitonthelist.main.widget.WidgetModule;
+import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.github.dmstocking.putitonthelist.uitl.UtilModule;
 
 import javax.inject.Singleton;
@@ -24,6 +26,9 @@ import dagger.Component;
 public interface CoreComponent {
 
     void inject(MainActivity mainActivity);
+
+    Log log();
+    UserService userService();
 
     MainComponent mainComponent(MainModule mainModule);
     GroceryListComponent groceryListComponent(GroceryListModule groceryListModule);

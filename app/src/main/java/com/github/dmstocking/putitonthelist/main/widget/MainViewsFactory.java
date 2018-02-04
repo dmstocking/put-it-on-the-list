@@ -57,7 +57,11 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-        model = mainRepository.getModel(userService.getUserId())
+        String userId = userService.getUserId()
+                .filter(uid -> !uid.isEmpty())
+                .firstOrError()
+                .blockingGet();
+        model = mainRepository.getModel(userId)
                 .map(documents -> {
                     List<ListViewModel> list = new ArrayList<>();
                     for (GroceryListDocument document : documents) {

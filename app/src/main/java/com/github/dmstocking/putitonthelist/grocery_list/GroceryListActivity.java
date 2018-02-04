@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.github.dmstocking.putitonthelist.BaseActivity;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.grocery_list.items.add.AddGroceryListItemActivity;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
@@ -20,7 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class GroceryListActivity extends AppCompatActivity {
+public class GroceryListActivity extends BaseActivity {
 
     private Router router;
 

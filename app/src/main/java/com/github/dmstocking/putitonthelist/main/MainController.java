@@ -21,6 +21,7 @@ import com.bluelinelabs.conductor.Controller;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.grocery_list.GroceryListActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -102,7 +103,24 @@ public class MainController
     @Override
     protected void onAttach(@NonNull View view) {
         super.onAttach(view);
+        setHasOptionsMenu(true);
         presenter.attachView(this);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.main_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

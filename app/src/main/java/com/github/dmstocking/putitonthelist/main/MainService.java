@@ -14,6 +14,7 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -49,45 +50,54 @@ public class MainService {
     }
 
     public Completable create(@NonNull String name) {
-        return mainRepository.create(userService.getUserId(), name)
-                .doOnSuccess(id -> {
-                    analytics.createdList();
-                })
-                .toCompletable();
+        return userService.getUserId()
+                .firstOrError()
+                .filter(uid -> !uid.isEmpty())
+                .flatMapCompletable(uid -> {
+                    return mainRepository.create(uid, name)
+                            .doOnSuccess(id -> {
+                                analytics.createdList();
+                            })
+                            .toCompletable();
+                });
     }
 
     public Flowable<MainViewModel> model() {
-        return Flowable.combineLatest(
-                mainRepository.getModel(userService.getUserId()),
-                markProcessor,
-                Pair::create
-        )
-                .map(pair -> {
-                    List<GroceryListDocument> items = pair.first;
-                    Set<GroceryListId> marked = pair.second;
-                    List<ListViewModel> listItems = new ArrayList<>();
-                    listItems.add(ListViewModel.create(
-                            ListViewModel.Type.AD_BANNER,
-                            GroceryListId.create("AD_ID"),
-                            "",
-                            "",
-                            false));
-                    for (GroceryListDocument doc : items) {
-                        GroceryListId id = GroceryListId.create(doc.getId());
-                        String caption = doc.getPurchased() + "/" + doc.getTotal();
-                        listItems.add(
-                                ListViewModel.create(
-                                        ListViewModel.Type.ITEM,
-                                        id,
-                                        doc.getName(),
-                                        caption,
-                                        marked.contains(id)));
-                    }
-                    boolean isSelecting = marked.size() > 0;
-                    return MainViewModel.create(
-                            mainResources.getActionTitle(marked.size()),
-                            listItems,
-                            isSelecting);
+        return userService.getUserId()
+                .toFlowable(BackpressureStrategy.LATEST)
+                .switchMap(uid -> {
+                    return Flowable.combineLatest(
+                            mainRepository.getModel(uid),
+                            markProcessor,
+                            Pair::create
+                    )
+                            .map(pair -> {
+                                List<GroceryListDocument> items = pair.first;
+                                Set<GroceryListId> marked = pair.second;
+                                List<ListViewModel> listItems = new ArrayList<>();
+                                listItems.add(ListViewModel.create(
+                                        ListViewModel.Type.AD_BANNER,
+                                        GroceryListId.create("AD_ID"),
+                                        "",
+                                        "",
+                                        false));
+                                for (GroceryListDocument doc : items) {
+                                    GroceryListId id = GroceryListId.create(doc.getId());
+                                    String caption = doc.getPurchased() + "/" + doc.getTotal();
+                                    listItems.add(
+                                            ListViewModel.create(
+                                                    ListViewModel.Type.ITEM,
+                                                    id,
+                                                    doc.getName(),
+                                                    caption,
+                                                    marked.contains(id)));
+                                }
+                                boolean isSelecting = marked.size() > 0;
+                                return MainViewModel.create(
+                                        mainResources.getActionTitle(marked.size()),
+                                        listItems,
+                                        isSelecting);
+                            });
                 });
     }
 

@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.github.dmstocking.putitonthelist.BaseActivity;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddGroceryListItemActivity extends AppCompatActivity {
+public class AddGroceryListItemActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.controller_container) ViewGroup container;

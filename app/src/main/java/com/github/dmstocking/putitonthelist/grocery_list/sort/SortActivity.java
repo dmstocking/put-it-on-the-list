@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import com.bluelinelabs.conductor.Conductor;
 import com.bluelinelabs.conductor.Router;
 import com.bluelinelabs.conductor.RouterTransaction;
+import com.github.dmstocking.putitonthelist.BaseActivity;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class SortActivity extends AppCompatActivity {
+public class SortActivity extends BaseActivity {
 
     private Router router;
 
