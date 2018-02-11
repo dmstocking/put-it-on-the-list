@@ -57,9 +57,4 @@ public class FirebaseAnalyticsImpl implements Analytics {
     public void deletedPurchased() {
         firebaseAnalytics.logEvent("deleted_purchased", null);
     }
-
-    @Override
-    public void userRegisters() {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.SIGN_UP, null);
-    }
 }

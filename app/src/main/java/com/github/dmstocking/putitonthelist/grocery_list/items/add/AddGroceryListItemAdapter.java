@@ -27,8 +27,7 @@ public class AddGroceryListItemAdapter extends RecyclerView.Adapter<AddGroceryVi
         this.viewHolderFactory = viewHolderFactory;
     }
 
-    public void update(List<ListItemViewModel> model) {
-        List<ListItemViewModel> newModel = model;
+    public void update(List<ListItemViewModel> newModel) {
         List<ListItemViewModel> oldModel = this.model;
         this.model = newModel;
         DiffUtil.calculateDiff(new DiffUtil.Callback() {

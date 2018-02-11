@@ -2,8 +2,6 @@ package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 
 import android.support.annotation.NonNull;
 
-import com.github.dmstocking.putitonthelist.main.GroceryListId;
-
 import io.reactivex.Observable;
 
 public interface AddGroceryListItemContract {

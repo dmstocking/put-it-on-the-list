@@ -13,6 +13,4 @@ public interface Analytics {
     void purchasedItem(@NonNull String id);
     void unpurchasedItem(@NonNull String id);
     void deletedPurchased();
-
-    void userRegisters();
 }

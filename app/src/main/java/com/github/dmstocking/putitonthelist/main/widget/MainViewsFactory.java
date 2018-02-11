@@ -27,8 +27,6 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     public static final String TAG = "MainViewsFactory";
 
-    @NonNull private final Context context;
-    @NonNull private final Log log;
     @NonNull private final MainRepository mainRepository;
     @NonNull private final String packageName;
     @NonNull private final UserService userService;
@@ -36,14 +34,10 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     private List<ListViewModel> model;
 
-    public MainViewsFactory(@Provided @NonNull Context context,
-                            @Provided @NonNull Log log,
-                            @Provided @NonNull MainRepository mainRepository,
+    public MainViewsFactory(@Provided @NonNull MainRepository mainRepository,
                             @Provided @Named("packageName") @NonNull String packageName,
                             @Provided @NonNull UserService userService,
                             Intent intent) {
-        this.context = context;
-        this.log = log;
         this.mainRepository = mainRepository;
         this.packageName = packageName;
         this.userService = userService;

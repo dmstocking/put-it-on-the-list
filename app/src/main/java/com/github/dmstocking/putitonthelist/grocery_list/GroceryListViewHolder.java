@@ -27,7 +27,6 @@ public class GroceryListViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.category) ImageView category;
     @BindView(R.id.category_background) ImageView categoryBackground;
     @BindView(R.id.name) CheckedTextView name;
-    @BindView(R.id.edit_name) EditText editName;
 
     @BindDimen(R.dimen.dp_0) int dp0;
     @BindDimen(R.dimen.dp_8) int dp8;

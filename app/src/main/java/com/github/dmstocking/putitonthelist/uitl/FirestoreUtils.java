@@ -1,7 +1,5 @@
 package com.github.dmstocking.putitonthelist.uitl;
 
-import android.support.annotation.NonNull;
-
 import com.github.dmstocking.optional.java.util.function.Supplier;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
@@ -23,11 +21,9 @@ import io.reactivex.Completable;
 public class FirestoreUtils {
 
     public static final String TAG = "FireStore";
-    @NonNull private final Log log;
 
     @Inject
-    public FirestoreUtils(@NonNull Log log) {
-        this.log = log;
+    public FirestoreUtils() {
     }
 
     public Completable deleteDocument(final DocumentReference document) {

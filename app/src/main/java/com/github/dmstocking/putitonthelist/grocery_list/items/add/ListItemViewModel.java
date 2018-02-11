@@ -1,7 +1,6 @@
 package com.github.dmstocking.putitonthelist.grocery_list.items.add;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.github.dmstocking.putitonthelist.Color;
 import com.google.auto.value.AutoValue;

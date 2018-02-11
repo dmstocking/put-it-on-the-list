@@ -15,7 +15,7 @@ public abstract class ViewModel {
         return new AutoValue_ViewModel(doneEnabled, categoryImage, categoryColor, items);
     }
 
-    @NonNull public abstract boolean doneEnabled();
+    public abstract boolean doneEnabled();
     @NonNull public abstract URI categoryImage();
     @NonNull public abstract Color categoryColor();
     @NonNull public abstract List<ListItemViewModel> items();

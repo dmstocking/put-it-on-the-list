@@ -55,7 +55,7 @@
             android:textAppearance="@style/TextAppearance.PutItOnTheList.Caption"
             android:layout_alignTop="@+id/border"
             android:layout_alignEnd="@+id/border"
-            android:text="Ad"
+            android:text="@string/ad"
             android:background="@color/md_yellow_500"
             />
 

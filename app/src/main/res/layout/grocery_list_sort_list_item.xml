@@ -53,7 +53,7 @@
             app:layout_constraintStart_toEndOf="@+id/category"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_reorder_black_24dp"
-            android:contentDescription="drag handle"
+            android:contentDescription="@string/grocery_list.sort.drag"
             />
 
     </android.support.constraint.ConstraintLayout>

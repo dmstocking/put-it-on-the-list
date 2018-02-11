@@ -21,13 +21,10 @@ import static android.support.v7.widget.helper.ItemTouchHelper.UP;
 public class SortItemTouchCallback extends ItemTouchHelper.Callback {
 
     @NonNull private final SortAdapter sortAdapter;
-    @NonNull private final SortService sortService;
 
     @Inject
-    public SortItemTouchCallback(@NonNull SortAdapter sortAdapter,
-                                 @NonNull SortService sortService) {
+    public SortItemTouchCallback(@NonNull SortAdapter sortAdapter) {
         this.sortAdapter = sortAdapter;
-        this.sortService = sortService;
     }
 
     @Override

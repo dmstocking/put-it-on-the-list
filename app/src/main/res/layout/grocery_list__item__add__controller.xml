@@ -64,7 +64,7 @@
                 android:layout_marginTop="8dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:hint="Item"
+                android:hint="@string/grocery_list.item"
                 android:textAppearance="@style/TextAppearance.PutItOnTheList.Title"
                 android:visibility="visible"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -86,7 +86,7 @@
                 app:layout_constraintStart_toEndOf="@id/name"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_check_circle_black_24dp"
-                android:contentDescription="done"
+                android:contentDescription="@string/grocery_list.done"
                 />
 
         </android.support.constraint.ConstraintLayout>

@@ -14,8 +14,8 @@
 
     <item
         android:id="@+id/delete_purchased"
-        android:contentDescription="Delete Purchased"
-        android:title="Delete Purchased"
+        android:contentDescription="@string/grocery_list.delete_purchased"
+        android:title="@string/grocery_list.delete_purchased"
         app:showAsAction="never"/>
 
 </menu>

@@ -8,11 +8,8 @@ import android.widget.RemoteViewsService;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.authentication.UserService;
-import com.github.dmstocking.putitonthelist.main.GroceryListDocument;
 import com.github.dmstocking.putitonthelist.main.MainRepository;
 import com.github.dmstocking.putitonthelist.uitl.Log;
-
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
