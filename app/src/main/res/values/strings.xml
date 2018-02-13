@@ -13,4 +13,7 @@
     <string name="grocery_list.done">done</string>
     <string name="grocery_list.delete_purchased">Delete Purchased</string>
     <string name="grocery_list.sort.drag">drag handle</string>
+    <string name="notification_channel">General</string>
+    <string name="come_back_title">Come back!</string>
+    <string name="come_back_content">We miss being your list app. Lets plan this weeks groceries together.</string>
 </resources>

@@ -23,6 +23,7 @@ import com.github.dmstocking.putitonthelist.BuildConfig;
 import com.github.dmstocking.putitonthelist.CoreApplication;
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.authentication.UserService;
+import com.github.dmstocking.putitonthelist.comeback.ComeBackScheduler;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Arrays;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject MainService mainService;
     @Inject UserService userService;
+    @Inject ComeBackScheduler comeBackScheduler;
 
     @NonNull
     private Disposable loggedInDisposable = Disposables.disposed();
@@ -93,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(loginIntent, REQUEST_CODE);
                     }
                 });
+        comeBackScheduler.cancelComeBackNotificationJob();
     }
 
     @Override
@@ -149,5 +152,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         loggedInDisposable.dispose();
+        comeBackScheduler.scheduleComeBackNotificationJob();
     }
 }

@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:multidex:1.0.2'
     implementation 'com.bluelinelabs:conductor:2.1.4'
+    implementation 'com.firebase:firebase-jobdispatcher:0.8.5'
     implementation 'com.firebaseui:firebase-ui-auth:3.1.0'
     implementation 'com.github.bumptech.glide:glide:4.3.1'
     implementation 'com.github.dmstocking:support-optional:1.2'

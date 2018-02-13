@@ -35,7 +35,7 @@ public class WidgetService extends RemoteViewsService {
         super.onCreate();
         ((CoreApplication) getApplicationContext())
                 .coreComponent()
-                .widgetComponent(new WidgetModule(this))
+                .widgetComponent(new WidgetModule())
                 .inject(this);
 
         userService.getUserId()

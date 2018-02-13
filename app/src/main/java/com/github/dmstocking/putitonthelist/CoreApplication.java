@@ -19,6 +19,8 @@ public class CoreApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         MobileAds.initialize(this, "ca-app-pub-9356857454818788~3361766063");
+        coreComponent().notificationInitializer()
+                .init();
     }
 
     @NonNull

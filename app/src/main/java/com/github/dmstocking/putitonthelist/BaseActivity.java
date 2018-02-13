@@ -3,15 +3,18 @@ package com.github.dmstocking.putitonthelist;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
+import com.github.dmstocking.putitonthelist.comeback.ComeBackScheduler;
 import com.github.dmstocking.putitonthelist.main.MainActivity;
 
 public class BaseActivity extends AppCompatActivity {
+
+    private ComeBackScheduler comeBackScheduler;
 
     @Override
     protected void onResume() {
         super.onResume();
         CoreComponent coreComponent = ((CoreApplication) getApplication()).coreComponent();
-
+        comeBackScheduler = coreComponent.comeBackScheduler();
         coreComponent.userService()
                 .isLoggedIn()
                 .subscribe(loggedIn -> {
@@ -26,5 +29,13 @@ public class BaseActivity extends AppCompatActivity {
                 }, throwable -> {
                     coreComponent.log().e("BaseActivity", "Error while checking logged in status", throwable);
                 });
+
+        comeBackScheduler.cancelComeBackNotificationJob();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        comeBackScheduler.scheduleComeBackNotificationJob();
     }
 }

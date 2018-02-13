@@ -14,16 +14,7 @@ import dagger.Provides;
 @Module
 public class WidgetModule {
 
-    @NonNull private final WidgetService widgetService;
-
-    public WidgetModule(@NonNull WidgetService widgetService) {
-        this.widgetService = widgetService;
-    }
-
-    @Provides
-    @PerController
-    Context providesContext() {
-        return widgetService.getApplicationContext();
+    public WidgetModule() {
     }
 
     @Provides

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item type="id" name="authentication.result"/>
+    <item type="id" name="come_back.notification"/>
+    <item type="id" name="come_back.pending_intent"/>
 </resources>

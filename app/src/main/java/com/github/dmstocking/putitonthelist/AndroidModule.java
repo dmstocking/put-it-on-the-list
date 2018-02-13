@@ -1,9 +1,14 @@
 package com.github.dmstocking.putitonthelist;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.res.Resources;
 import android.support.annotation.NonNull;
 
+import com.firebase.jobdispatcher.FirebaseJobDispatcher;
+import com.firebase.jobdispatcher.GooglePlayDriver;
 import com.github.dmstocking.putitonthelist.main.widget.WidgetProvider;
 
 import javax.inject.Named;
@@ -23,8 +28,27 @@ public class AndroidModule {
 
     @Provides
     @Singleton
-    public Resources providesResources() {
-        return application.getResources();
+    public Context providesContext() {
+        return application;
+    }
+
+    @Provides
+    @Singleton
+    @Named("MainWidgetProvider")
+    public ComponentName providesComponentName() {
+        return new ComponentName(application, WidgetProvider.class);
+    }
+
+    @Provides
+    @Singleton
+    public FirebaseJobDispatcher providesFirebaseJobDispatcher() {
+        return new FirebaseJobDispatcher(new GooglePlayDriver(application));
+    }
+
+    @Provides
+    @Singleton
+    public NotificationManager providesNotificationManager() {
+        return (NotificationManager) application.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Provides
@@ -36,8 +60,7 @@ public class AndroidModule {
 
     @Provides
     @Singleton
-    @Named("MainWidgetProvider")
-    public ComponentName providesComponentName() {
-        return new ComponentName(application, WidgetProvider.class);
+    public Resources providesResources() {
+        return application.getResources();
     }
 }
