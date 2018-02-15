@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
 import com.firebase.jobdispatcher.Job;
 import com.firebase.jobdispatcher.Trigger;
-import com.github.dmstocking.putitonthelist.uitl.SystemTimeService;
 
 import java.util.concurrent.TimeUnit;
 
