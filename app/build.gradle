@@ -1,6 +1,18 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.getkeepsafe.dexcount'
 
+def ext = rootProject.ext
+
+/*
+ * If you wish to make release builds, you must provide a gradle.properties file in "app"
+ * that has two lines
+ *
+ * KEYSTORE_PASSWORD=<real password here>
+ * KEY_PASSWORD=<real password here>
+ */
+def _storePassword = hasProperty('KEYSTORE_PASSWORD') ? KEYSTORE_PASSWORD : "Do not fill in"
+def _keyPassword = hasProperty('KEY_PASSWORD') ? KEY_PASSWORD : "Do not fill in"
+
 android {
     compileSdkVersion 26
     buildToolsVersion '26.0.2'
@@ -32,7 +44,14 @@ android {
         exclude 'plugin.properties'
         exclude 'plugin.xml'
     }
-}
+    signingConfigs {
+        release {
+            storeFile file(ext.storeFile)
+            keyAlias ext.keyAlias
+            storePassword _storePassword
+            keyPassword _keyPassword
+        }
+    }}
 
 dependencies {
     annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta5'

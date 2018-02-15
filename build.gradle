@@ -26,3 +26,8 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    storeFile = "${getProjectDir()}/keystore.jks"
+    keyAlias = 'key0'
+}
