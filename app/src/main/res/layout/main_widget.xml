@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/main_widget_item"
+        android:background="@color/md_white_1000"
         />
 
 </LinearLayout>

@@ -9,11 +9,11 @@ import android.widget.RemoteViewsService;
 
 import com.github.dmstocking.putitonthelist.R;
 import com.github.dmstocking.putitonthelist.authentication.UserService;
+import com.github.dmstocking.putitonthelist.grocery_list.GroceryListActivity;
 import com.github.dmstocking.putitonthelist.main.GroceryListDocument;
 import com.github.dmstocking.putitonthelist.main.GroceryListId;
 import com.github.dmstocking.putitonthelist.main.ListViewModel;
 import com.github.dmstocking.putitonthelist.main.MainRepository;
-import com.github.dmstocking.putitonthelist.uitl.Log;
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
 
@@ -30,6 +30,7 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     @NonNull private final MainRepository mainRepository;
     @NonNull private final String packageName;
     @NonNull private final UserService userService;
+    @NonNull private final Context context;
     private final int appWidgetId;
 
     private List<ListViewModel> model;
@@ -37,10 +38,12 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     public MainViewsFactory(@Provided @NonNull MainRepository mainRepository,
                             @Provided @Named("packageName") @NonNull String packageName,
                             @Provided @NonNull UserService userService,
+                            @Provided @NonNull Context context,
                             Intent intent) {
         this.mainRepository = mainRepository;
         this.packageName = packageName;
         this.userService = userService;
+        this.context = context;
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
                                          AppWidgetManager.INVALID_APPWIDGET_ID);
     }
@@ -87,6 +90,8 @@ class MainViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         RemoteViews remoteViews = new RemoteViews(packageName, R.layout.main_widget_item);
         remoteViews.setTextViewText(R.id.name, viewModel.headline());
         remoteViews.setTextViewText(R.id.items, viewModel.trailingCaption());
+        Intent fillInIntent = GroceryListActivity.create(context, viewModel.id());
+        remoteViews.setOnClickFillInIntent(R.id.list_item_background, fillInIntent);
         return remoteViews;
     }
 
