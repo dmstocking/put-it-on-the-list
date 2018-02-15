@@ -31,10 +31,19 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
     }
+    signingConfigs {
+        release {
+            storeFile file(ext.storeFile)
+            keyAlias ext.keyAlias
+            storePassword _storePassword
+            keyPassword _keyPassword
+        }
+    }
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     packagingOptions {
@@ -44,14 +53,7 @@ android {
         exclude 'plugin.properties'
         exclude 'plugin.xml'
     }
-    signingConfigs {
-        release {
-            storeFile file(ext.storeFile)
-            keyAlias ext.keyAlias
-            storePassword _storePassword
-            keyPassword _keyPassword
-        }
-    }}
+}
 
 dependencies {
     annotationProcessor 'com.google.auto.factory:auto-factory:1.0-beta5'
