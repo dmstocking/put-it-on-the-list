@@ -37,13 +37,13 @@
             />
         <activity
             android:name=".grocery_list.items.add.AddGroceryListItemActivity"
-            android:label="Add Item"
+            android:label="@string/grocery_list.items.add.add_item"
             android:launchMode="singleTop"
             android:parentActivityName=".grocery_list.GroceryListActivity"
             />
         <activity
             android:name=".grocery_list.sort.SortActivity"
-            android:label="Sort Categories"
+            android:label="@string/grocery_list.sort.sort_categories"
             android:launchMode="singleTop"
             android:parentActivityName=".grocery_list.items.add.AddGroceryListItemActivity">
         </activity>

@@ -1,19 +1,23 @@
 <resources>
     <string name="app_name">Put it on the List</string>
 
-    <string name="logout">Logout</string>
+    <string name="ad">Ad</string>
     <string name="cancel">Cancel</string>
     <string name="create">Create</string>
     <string name="delete">Delete</string>
-    <string name="ad">Ad</string>
-    <string name="main.add_list.title">Create Grocery List</string>
-    <string name="main.action_title">%d Selected</string>
-    <string name="grocery_list.menu.sort">Sort Grocery List</string>
-    <string name="grocery_list.item">Item</string>
-    <string name="grocery_list.done">done</string>
-    <string name="grocery_list.delete_purchased">Delete Purchased</string>
-    <string name="grocery_list.sort.drag">drag handle</string>
-    <string name="notification_channel">General</string>
-    <string name="come_back_title">Come back!</string>
+    <string name="logout">Logout</string>
     <string name="come_back_content">We miss being your list app. Lets plan this weeks groceries together.</string>
+    <string name="come_back_title">Come back!</string>
+    <string name="grocery_list.add_item">Add item</string>
+    <string name="grocery_list.delete_purchased">Delete Purchased</string>
+    <string name="grocery_list.done">done</string>
+    <string name="grocery_list.item">Item</string>
+    <string name="grocery_list.items.add.add_item">Add Item</string>
+    <string name="grocery_list.menu.sort">Sort Grocery List</string>
+    <string name="grocery_list.sort.drag">drag handle</string>
+    <string name="grocery_list.sort.sort_categories">Sort Categories</string>
+    <string name="main.action_title">%d Selected</string>
+    <string name="main.add_list.title">Create Grocery List</string>
+    <string name="main.create_new_list">Create new list</string>
+    <string name="notification_channel">General</string>
 </resources>
