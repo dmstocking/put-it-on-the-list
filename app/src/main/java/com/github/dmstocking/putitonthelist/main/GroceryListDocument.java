@@ -10,7 +10,7 @@ public class GroceryListDocument {
     private String id;
 
     private Map<String, Boolean> authIds;
-    private Map<String, Integer> categories;
+    private Map<String, Object> categories;
     private String name;
     private int purchased;
     private int total;
@@ -19,7 +19,7 @@ public class GroceryListDocument {
     }
 
     public GroceryListDocument(Map<String, Boolean> authIds,
-                               Map<String, Integer> categories,
+                               Map<String, Object> categories,
                                String name,
                                int purchased,
                                int total) {
@@ -42,7 +42,7 @@ public class GroceryListDocument {
         return authIds;
     }
 
-    public Map<String, Integer> getCategories() {
+    public Map<String, Object> getCategories() {
         return categories;
     }
 

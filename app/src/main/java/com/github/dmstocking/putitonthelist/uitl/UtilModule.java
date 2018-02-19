@@ -15,14 +15,11 @@ public class UtilModule {
 
     @NonNull private final FirebaseAnalytics firebaseAnalytics;
     @NonNull private final FirebaseAuth firebaseAuth;
-    @NonNull private final FirebaseFirestore firebaseFirestore;
 
     public UtilModule(FirebaseAnalytics firebaseAnalytics,
-                      FirebaseAuth firebaseAuth,
-                      FirebaseFirestore firebaseFirestore) {
+                      FirebaseAuth firebaseAuth) {
         this.firebaseAnalytics = firebaseAnalytics;
         this.firebaseAuth = firebaseAuth;
-        this.firebaseFirestore = firebaseFirestore;
     }
 
     @Provides
@@ -41,12 +38,6 @@ public class UtilModule {
     @Singleton
     public FirebaseAuth providesFirebaseAuth() {
         return firebaseAuth;
-    }
-
-    @Provides
-    @Singleton
-    public FirebaseFirestore providesFirebasestore() {
-        return firebaseFirestore;
     }
 
     @Provides

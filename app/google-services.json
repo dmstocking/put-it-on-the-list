@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "837970438291-5q5i6321h7gg6ncl4juvo3ki7db9rji2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.dmstocking.putitonthelist",
+            "certificate_hash": "2799de4485bd540de1834bf9596462fe665efc62"
+          }
+        },
+        {
+          "client_id": "837970438291-92qql3k4hpq980mv2qs0rco8tbps62p3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.dmstocking.putitonthelist",
+            "certificate_hash": "83218294fc7d38ba4715cfefb8da6bb32a89d1c8"
+          }
+        },
+        {
+          "client_id": "837970438291-cvp2eu4a7ic6j4k22un9bgakss0ljikn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.dmstocking.putitonthelist",
+            "certificate_hash": "6096c608e1399e12a25d40196f55a9dc49d1dba0"
+          }
+        },
+        {
           "client_id": "837970438291-i80jajpdf4ffdu8fsbqd82u5r6ihr09o.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +53,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837970438291-i80jajpdf4ffdu8fsbqd82u5r6ihr09o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
