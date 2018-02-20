@@ -34,10 +34,10 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
     @NonNull private final IconUtils iconUtils;
     @NonNull private final Log log;
 
-    private String name;
-    private final Subject<String> nameSubject = BehaviorSubject.createDefault("");
-    private CategoryDocument category = new CategoryDocument("other");
-    private final Subject<CategoryDocument> categorySubject = BehaviorSubject.createDefault(category);
+    private String name = "";
+    private String category = "other";
+    private final Subject<String> nameSubject;
+    private final Subject<String> categorySubject;
 
     @Inject
     public AddGroceryListItemPresenter(@NonNull AddGroceryListItemContract.View view,
@@ -54,12 +54,22 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
         this.iconUtils = iconUtils;
         this.repository = repository;
         this.log = log;
+        nameSubject = BehaviorSubject.createDefault(name);
+        categorySubject = BehaviorSubject.createDefault(category);
+    }
+
+    @Override
+    public void restoreState(SavedState savedState) {
+        category = savedState.category();
+        name = savedState.name();
+        categorySubject.onNext(category);
+        nameSubject.onNext(name);
     }
 
     @Override
     public void onDoneClicked() {
         repository.create(args.id(),
-                          category.getCategory(),
+                          category,
                           name)
                 .subscribe(() -> {
                     analytics.addedItem();
@@ -76,7 +86,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
     }
 
     @Override
-    public void onCategoryChanged(@NonNull CategoryDocument category) {
+    public void onCategoryChanged(@NonNull String category) {
         this.category = category;
         categorySubject.onNext(category);
     }
@@ -93,7 +103,7 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
                     Color color = Color.BLACK;
                     List<ListItemViewModel> listViewModels = new ArrayList<>();
                     for (CategoryDocument doc : input.categoryDocuments()) {
-                        boolean selected = doc.getCategory().equals(input.category().getCategory());
+                        boolean selected = doc.getCategory().equals(input.category());
                         Color backgroundColor = Color.WHITE;
                         Color textColor = doc.getColor();
                         if (selected) {
@@ -116,17 +126,22 @@ public class AddGroceryListItemPresenter implements AddGroceryListItemContract.P
 
     }
 
+    @Override
+    public SavedState onSaveState() {
+        return SavedState.create(category, name);
+    }
+
     @AutoValue
     static abstract class Input {
 
         public static Input create(String name,
-                                   CategoryDocument category,
+                                   String category,
                                    List<CategoryDocument> categoryDocuments) {
             return new AutoValue_AddGroceryListItemPresenter_Input(name, category, categoryDocuments);
         }
 
         @NonNull public abstract String name();
-        @NonNull public abstract CategoryDocument category();
+        @NonNull public abstract String category();
         @NonNull public abstract List<CategoryDocument> categoryDocuments();
     }
 }
